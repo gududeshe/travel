@@ -31,7 +31,9 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html { -webkit-text-size-adjust: 100%; }
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
@@ -43,7 +45,10 @@
       min-height: 100vh;
     }
 
-    button { font-family: inherit; cursor: pointer; }
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
 
     .app {
       width: 100%;
@@ -59,744 +64,1986 @@
 
     .header {
       position: fixed;
-      top: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 480px; height: var(--header-h);
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: var(--header-h);
       background: var(--bg);
-      display: flex; align-items: center; gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 0 14px;
       z-index: 100;
     }
 
-    .logo { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
 
     .logo-icon {
-      width: 34px; height: 34px; border-radius: 10px;
-      background: linear-gradient(135deg, #7fc4c8, #4d99a0);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
-    .logo-text { line-height: 1.1; }
-    .logo-text .cn { font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: 1px; display: block; }
-    .logo-text .en { font-size: 8px; color: var(--text-light); letter-spacing: 1.4px; font-weight: 600; display: block; }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .logo-text {
+      line-height: 1.1;
+    }
+
+    .logo-text .cn {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .logo-text .en {
+      font-size: 8px;
+      color: var(--text-light);
+      letter-spacing: 1.4px;
+      font-weight: 600;
+      display: block;
+    }
 
     .search-box {
-      flex: 1; background: var(--white);
-      border-radius: 20px; padding: 8px 14px;
-      display: flex; align-items: center; gap: 7px;
-      box-shadow: var(--shadow-card); min-width: 0;
+      flex: 1;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: var(--shadow-card);
+      min-width: 0;
     }
-    .search-box svg { flex-shrink: 0; color: var(--text-light); }
-    .search-box input {
-      border: none; outline: none; background: transparent;
-      font-size: 13px; flex: 1; min-width: 0;
-      color: var(--text); font-family: inherit;
-    }
-    .search-box input::placeholder { color: #b8c4c6; }
 
-    .page { display: none; padding: 4px 14px 20px; }
-    .page.active { display: block; }
+    .search-box svg {
+      flex-shrink: 0;
+      color: var(--text-light);
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 13px;
+      flex: 1;
+      min-width: 0;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    .search-box input::placeholder {
+      color: #b8c4c6;
+    }
+
+    .page {
+      display: none;
+      padding: 4px 14px 20px;
+    }
+
+    .page.active {
+      display: block;
+    }
 
     /* ==================== 首页 ==================== */
     .hero-carousel {
-      position: relative; border-radius: 20px; overflow: hidden;
-      aspect-ratio: 16 / 10; margin-bottom: 16px;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      margin-bottom: 16px;
       box-shadow: 0 4px 20px rgba(26, 43, 45, 0.08);
       background: #1a2b2d;
     }
-    .hero-track { position: absolute; inset: 0; }
-    .hero-slide {
-      position: absolute; inset: 0;
-      opacity: 0; transition: opacity 0.9s ease; pointer-events: none;
+
+    .hero-track {
+      position: absolute;
+      inset: 0;
     }
-    .hero-slide.active { opacity: 1; pointer-events: auto; }
-    .hero-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+      pointer-events: none;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .hero-slide .hero-content {
-      position: absolute; left: 0; right: 0; bottom: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
       padding: 24px 18px 26px;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
       color: #fff;
     }
-    .hero-content h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3); }
-    .hero-content p { font-size: 12px; opacity: 0.9; margin-bottom: 10px; letter-spacing: 0.3px; }
-    .hero-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .hero-content h1 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content p {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
     .hero-pills span {
       background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      padding: 3px 10px; border-radius: 12px;
-      font-size: 10.5px; border: 1px solid rgba(255, 255, 255, 0.25);
-      letter-spacing: 0.3px; white-space: nowrap;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.3px;
+      white-space: nowrap;
     }
-    .hero-dots { position: absolute; bottom: 10px; right: 14px; display: flex; gap: 5px; z-index: 3; }
+
+    .hero-dots {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      display: flex;
+      gap: 5px;
+      z-index: 3;
+    }
+
     .hero-dot {
-      width: 6px; height: 6px; border-radius: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
       background: rgba(255, 255, 255, 0.4);
-      border: none; padding: 0; cursor: pointer; transition: all 0.3s;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.3s;
     }
-    .hero-dot.active { background: #fff; width: 18px; border-radius: 3px; }
+
+    .hero-dot.active {
+      background: #fff;
+      width: 18px;
+      border-radius: 3px;
+    }
 
     .quick-actions {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 10px; margin-bottom: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
     }
+
     .quick-btn {
-      background: var(--white); border: none;
-      border-radius: 16px; padding: 12px 4px 11px;
-      display: flex; flex-direction: column; align-items: center; gap: 7px;
-      transition: transform 0.15s; box-shadow: var(--shadow-card);
+      background: var(--white);
+      border: none;
+      border-radius: 16px;
+      padding: 12px 4px 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      transition: transform 0.15s;
+      box-shadow: var(--shadow-card);
     }
-    .quick-btn:active { transform: scale(0.95); }
+
+    .quick-btn:active {
+      transform: scale(0.95);
+    }
+
     .quick-icon {
-      width: 42px; height: 42px; border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #e8f5f6, #d9eff1);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--primary-dark);
     }
-    .quick-icon svg { width: 26px; height: 26px; }
-    .quick-btn span { font-size: 11px; color: var(--text); font-weight: 500; letter-spacing: 0.3px; }
+
+    .quick-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .quick-btn span {
+      font-size: 11px;
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
 
     .section-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px; padding: 0 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 0 2px;
     }
+
     .section-title {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.3px;
     }
-    .section-title svg { color: var(--primary); }
+
+    .section-title svg {
+      color: var(--primary);
+    }
+
     .section-more {
-      font-size: 12px; color: var(--text-light);
-      display: flex; align-items: center; gap: 1px;
-      background: none; border: none; padding: 4px 0;
+      font-size: 12px;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      background: none;
+      border: none;
+      padding: 4px 0;
     }
 
     .guide-preview-card {
-      background: var(--white); border-radius: var(--radius);
-      padding: 12px; display: flex; gap: 12px;
-      margin-bottom: 22px; box-shadow: var(--shadow-card);
-      cursor: pointer; transition: transform 0.15s;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
     }
-    .guide-preview-card:active { transform: scale(0.98); }
+
+    .guide-preview-card:active {
+      transform: scale(0.98);
+    }
+
     .guide-preview-img {
-      width: 92px; height: 92px; border-radius: 12px;
-      overflow: hidden; flex-shrink: 0; background: #d4e4e6;
+      width: 92px;
+      height: 92px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #d4e4e6;
     }
-    .guide-preview-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .guide-preview-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .guide-preview-info {
-      flex: 1; min-width: 0;
-      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
     }
-    .guide-preview-info h3 { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.35; }
-    .guide-preview-info p { font-size: 11px; color: var(--text-light); line-height: 1.5; }
+
+    .guide-preview-info h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .guide-preview-info p {
+      font-size: 11px;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
     .guide-tag {
-      display: inline-block; align-self: flex-start;
-      font-size: 10.5px; padding: 3px 12px; border-radius: 12px;
-      background: var(--white); border: 1px solid var(--border);
-      color: var(--text-mid); font-weight: 500; margin-top: 2px;
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 10.5px;
+      padding: 3px 12px;
+      border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      font-weight: 500;
+      margin-top: 2px;
     }
 
     .stay-card {
-      position: relative; border-radius: var(--radius); overflow: hidden;
-      aspect-ratio: 16 / 10; margin-bottom: 10px;
-      box-shadow: var(--shadow-card); cursor: pointer; transition: transform 0.15s;
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
     }
-    .stay-card:active { transform: scale(0.98); }
-    .stay-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .stay-card:active {
+      transform: scale(0.98);
+    }
+
+    .stay-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .stay-overlay {
-      position: absolute; left: 0; right: 0; bottom: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
       padding: 60px 16px 16px;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.15) 60%, transparent);
       color: #fff;
     }
-    .stay-overlay h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
-    .stay-overlay p { font-size: 11.5px; opacity: 0.9; letter-spacing: 0.3px; }
 
-    .stay-icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 22px; }
-    .stay-icon-item {
-      background: var(--white); border-radius: 14px;
-      padding: 13px 4px 11px; text-align: center;
-      box-shadow: var(--shadow-card); cursor: pointer; transition: transform 0.15s;
+    .stay-overlay h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
     }
-    .stay-icon-item:active { transform: scale(0.96); }
+
+    .stay-overlay p {
+      font-size: 11.5px;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+
+    .stay-icons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .stay-icon-item {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 13px 4px 11px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .stay-icon-item:active {
+      transform: scale(0.96);
+    }
+
     .stay-icon-circle {
-      width: 38px; height: 38px; border-radius: 50%;
-      background: #f0f7f8; margin: 0 auto 8px;
-      display: flex; align-items: center; justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f0f7f8;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--primary-dark);
     }
-    .stay-icon-circle svg { width: 20px; height: 20px; }
-    .stay-icon-name { font-size: 11.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; letter-spacing: 0.2px; }
-    .stay-icon-desc { font-size: 9.5px; color: var(--text-light); line-height: 1.3; padding: 0 2px; }
 
-    .season-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
-    .season-card {
-      position: relative; border-radius: 16px; overflow: hidden;
-      aspect-ratio: 4 / 3;
-      box-shadow: var(--shadow-card); cursor: pointer; transition: transform 0.15s;
+    .stay-icon-circle svg {
+      width: 20px;
+      height: 20px;
     }
-    .season-card:active { transform: scale(0.97); }
-    .season-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .season-month {
-      position: absolute; top: 8px; right: 8px;
-      background: rgba(255, 255, 255, 0.92); color: var(--text);
-      padding: 3px 10px; border-radius: 10px;
-      font-size: 10.5px; font-weight: 600;
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+
+    .stay-icon-name {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
       letter-spacing: 0.2px;
     }
-    .season-name {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      padding: 32px 10px 10px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.1) 70%, transparent);
-      color: #fff; font-size: 12px; font-weight: 700;
-      letter-spacing: 0.3px; line-height: 1.35;
+
+    .stay-icon-desc {
+      font-size: 9.5px;
+      color: var(--text-light);
+      line-height: 1.3;
+      padding: 0 2px;
     }
 
-    /* ==================== 第二页 ==================== */
+    .season-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .season-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .season-card:active {
+      transform: scale(0.97);
+    }
+
+    .season-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .season-month {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 10.5px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      letter-spacing: 0.2px;
+    }
+
+    .season-name {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 32px 10px 10px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.1) 70%, transparent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      line-height: 1.35;
+    }
+
+    /* ==================== 第二页 · 沙盘 + 实景 ==================== */
     .map-stage {
-      position: relative; width: 100%;
-      aspect-ratio: 16 / 11; border-radius: 20px; overflow: hidden;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      border-radius: 20px;
+      overflow: hidden;
       background: linear-gradient(180deg, #dceef0 0%, #c8e0e2 100%);
       box-shadow: 0 4px 20px rgba(26, 43, 45, 0.06);
       margin-bottom: 14px;
     }
+
     .sandtable {
-      position: absolute; inset: 0; opacity: 1; transform: scale(1);
-      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 2;
     }
-    .sandtable.hide { opacity: 0; transform: scale(1.4); pointer-events: none; }
+
+    .sandtable.hide {
+      opacity: 0;
+      transform: scale(1.4);
+      pointer-events: none;
+    }
 
     .sand-hint {
-      position: absolute; top: 12px;
-      display: flex; align-items: center; gap: 5px;
+      position: absolute;
+      top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
       background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      padding: 5px 12px; border-radius: 14px;
-      font-size: 10.5px; color: var(--text-mid);
-      font-weight: 500; letter-spacing: 0.3px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); z-index: 3;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-size: 10.5px;
+      color: var(--text-mid);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      z-index: 3;
     }
+
     .sand-hint::before {
-      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       border: 1.5px solid var(--primary);
     }
-    .sand-hint-l { left: 12px; }
-    .sand-hint-r { right: 12px; }
-    .sand-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-    .sand-pins { position: absolute; inset: 0; pointer-events: none; }
+
+    .sand-hint-l {
+      left: 12px;
+    }
+
+    .sand-hint-r {
+      right: 12px;
+    }
+
+    .sand-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sand-pins {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
     .sand-pin {
-      position: absolute; width: 26px; height: 26px; border-radius: 50%;
-      background: var(--white); border: 2px solid var(--primary-dark);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--primary-dark); cursor: pointer; pointer-events: auto;
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-dark);
+      cursor: pointer;
+      pointer-events: auto;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       transform: translate(-50%, -50%);
       transition: transform 0.2s;
       animation: pinPulse 2.4s ease-in-out infinite;
       z-index: 4;
     }
-    .sand-pin:nth-child(2n) { animation-delay: 0.6s; }
-    .sand-pin:nth-child(3n) { animation-delay: 1.2s; }
-    .sand-pin:active { transform: translate(-50%, -50%) scale(0.85); }
-    .sand-pin svg { width: 13px; height: 13px; }
+
+    .sand-pin:nth-child(2n) {
+      animation-delay: 0.6s;
+    }
+
+    .sand-pin:nth-child(3n) {
+      animation-delay: 1.2s;
+    }
+
+    .sand-pin:active {
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+
+    .sand-pin svg {
+      width: 13px;
+      height: 13px;
+    }
 
     @keyframes pinPulse {
-      0%, 100% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(91, 168, 174, 0.55); }
-      50% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 9px rgba(91, 168, 174, 0); }
+
+      0%,
+      100% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(91, 168, 174, 0.55);
+      }
+
+      50% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 9px rgba(91, 168, 174, 0);
+      }
     }
 
     .spot-photo {
-      position: absolute; inset: 0; opacity: 0; transform: scale(1.25);
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.25);
       pointer-events: none;
-      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 1; background: #0b1214;
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      background: #0b1214;
     }
-    .spot-photo.show { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 5; }
-    .spot-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .spot-photo.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      z-index: 5;
+    }
+
+    .spot-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .spot-photo::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 28%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.78) 100%);
-      pointer-events: none; z-index: 2;
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.42) 0%,
+          rgba(0, 0, 0, 0) 28%,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.78) 100%);
+      pointer-events: none;
+      z-index: 2;
     }
+
     .photo-back {
-      position: absolute; top: 12px; left: 12px;
+      position: absolute;
+      top: 12px;
+      left: 12px;
       background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border: none; padding: 7px 14px; border-radius: 16px;
-      font-size: 11.5px; font-weight: 600; color: var(--primary-dark);
-      display: flex; align-items: center; gap: 5px; cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); z-index: 6;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: none;
+      padding: 7px 14px;
+      border-radius: 16px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 6;
     }
-    .photo-back svg { width: 12px; height: 12px; }
+
+    .photo-back svg {
+      width: 12px;
+      height: 12px;
+    }
+
     .photo-info {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      padding: 60px 18px 16px; color: #fff; z-index: 3;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 60px 18px 16px;
+      color: #fff;
+      z-index: 3;
       animation: photoInfoIn 0.6s ease 0.3s both;
     }
+
     @keyframes photoInfoIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
+
     .photo-cat {
-      display: inline-block; font-size: 10.5px; font-weight: 600;
-      padding: 3px 10px; border-radius: 10px;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.22);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      letter-spacing: 0.4px; margin-bottom: 8px;
+      letter-spacing: 0.4px;
+      margin-bottom: 8px;
     }
-    .photo-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); line-height: 1.3; }
-    .photo-desc { font-size: 11.5px; opacity: 0.9; line-height: 1.55; margin-bottom: 8px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
-    .photo-meta { font-size: 10.5px; opacity: 0.75; letter-spacing: 0.3px; }
+
+    .photo-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+      line-height: 1.3;
+    }
+
+    .photo-desc {
+      font-size: 11.5px;
+      opacity: 0.9;
+      line-height: 1.55;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .photo-meta {
+      font-size: 10.5px;
+      opacity: 0.75;
+      letter-spacing: 0.3px;
+    }
 
     .cat-scroll {
-      display: flex; gap: 8px; overflow-x: auto;
-      padding: 2px 2px 8px; margin-bottom: 10px; scrollbar-width: none;
-    }
-    .cat-scroll::-webkit-scrollbar { display: none; }
-    .cat-chip {
-      display: flex; align-items: center; gap: 5px;
-      padding: 7px 14px; border-radius: 18px;
-      border: 1.5px solid var(--border); background: var(--white);
-      color: var(--text-mid); font-size: 12px; font-weight: 500;
-      white-space: nowrap; flex-shrink: 0; transition: all 0.2s;
-    }
-    .cat-chip svg { width: 13px; height: 13px; }
-    .cat-chip.active {
-      background: var(--primary); color: #fff;
-      border-color: var(--primary); box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 8px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
     }
 
-    .poi-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .poi-card {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--white); border-radius: 14px;
-      padding: 13px 14px; box-shadow: var(--shadow-card);
-      cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+    .cat-scroll::-webkit-scrollbar {
+      display: none;
     }
-    .poi-card:active { transform: scale(0.98); }
+
+    .cat-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-mid);
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .cat-chip svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .cat-chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+    }
+
+    .poi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .poi-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 13px 14px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .poi-card:active {
+      transform: scale(0.98);
+    }
+
     .poi-icon {
-      width: 40px; height: 40px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
     }
-    .poi-icon svg { width: 20px; height: 20px; }
-    .poi-icon.cat-spot { background: #e8f5f6; color: #3d8a90; }
-    .poi-icon.cat-stay { background: #e8eef5; color: #4a6fa8; }
-    .poi-icon.cat-food { background: #fdf0e3; color: #c47b4d; }
-    .poi-icon.cat-supply { background: #e6f3ea; color: #4a8b5a; }
-    .poi-icon.cat-red { background: #fbe9e9; color: #c94a4a; }
-    .poi-icon.cat-village { background: #efe6f5; color: #7a5a9c; }
-    .poi-body { flex: 1; min-width: 0; }
+
+    .poi-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .poi-icon.cat-spot {
+      background: #e8f5f6;
+      color: #3d8a90;
+    }
+
+    .poi-icon.cat-stay {
+      background: #e8eef5;
+      color: #4a6fa8;
+    }
+
+    .poi-icon.cat-food {
+      background: #fdf0e3;
+      color: #c47b4d;
+    }
+
+    .poi-icon.cat-supply {
+      background: #e6f3ea;
+      color: #4a8b5a;
+    }
+
+    .poi-icon.cat-red {
+      background: #fbe9e9;
+      color: #c94a4a;
+    }
+
+    .poi-icon.cat-village {
+      background: #efe6f5;
+      color: #7a5a9c;
+    }
+
+    .poi-body {
+      flex: 1;
+      min-width: 0;
+    }
+
     .poi-title {
-      font-size: 13.5px; font-weight: 700; color: var(--text);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
       margin-bottom: 2px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+
     .poi-desc {
-      font-size: 11px; color: var(--text-light); line-height: 1.4;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-size: 11px;
+      color: var(--text-light);
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .poi-arrow { flex-shrink: 0; color: #c8d4d6; font-size: 16px; font-weight: 300; }
+
+    .poi-arrow {
+      flex-shrink: 0;
+      color: #c8d4d6;
+      font-size: 16px;
+      font-weight: 300;
+    }
 
     /* ==================== 攻略页 ==================== */
     .tab-scroll {
-      display: flex; gap: 6px; margin-bottom: 14px;
-      overflow-x: auto; padding-bottom: 2px; scrollbar-width: none;
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
     }
-    .tab-scroll::-webkit-scrollbar { display: none; }
+
+    .tab-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
     .pill-tab {
-      padding: 7px 18px; border-radius: 18px;
-      border: 1.5px solid var(--border); background: var(--white);
-      font-size: 12.5px; color: var(--text-mid);
-      transition: all 0.2s; white-space: nowrap; flex-shrink: 0; font-weight: 500;
+      padding: 7px 18px;
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-size: 12.5px;
+      color: var(--text-mid);
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 500;
     }
+
     .pill-tab.active {
-      background: var(--primary); color: #fff;
-      border-color: var(--primary); box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
     }
-    .season-panel { display: none; }
-    .season-panel.active { display: block; }
+
+    .season-panel {
+      display: none;
+    }
+
+    .season-panel.active {
+      display: block;
+    }
 
     .guide-cover {
-      width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
       object-position: center 40%;
-      border-radius: 12px; display: block; margin-bottom: 12px;
+      border-radius: 12px;
+      display: block;
+      margin-bottom: 12px;
       background: #d4e4e6;
     }
 
     .step-card {
-      background: var(--white); border-radius: var(--radius);
-      padding: 16px; margin-bottom: 22px; box-shadow: var(--shadow-card);
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
     }
-    .step-list { counter-reset: step; }
+
+    .step-list {
+      counter-reset: step;
+    }
+
     .step-item {
-      display: flex; gap: 12px; padding: 11px 0;
-      border-bottom: 1px dashed var(--border); align-items: flex-start;
+      display: flex;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px dashed var(--border);
+      align-items: flex-start;
     }
-    .step-item:last-child { border-bottom: none; }
-    .step-item:first-child { padding-top: 4px; }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-item:first-child {
+      padding-top: 4px;
+    }
+
     .step-num {
-      counter-increment: step; flex-shrink: 0;
-      width: 26px; height: 26px; border-radius: 50%;
-      background: var(--primary-light); color: var(--primary-dark);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700;
+      counter-increment: step;
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
     }
-    .step-num::before { content: counter(step); }
-    .step-content { flex: 1; min-width: 0; }
-    .step-content h4 { font-size: 13px; color: var(--text); margin-bottom: 2px; font-weight: 600; }
-    .step-content p { font-size: 11.5px; color: var(--text-light); line-height: 1.55; }
+
+    .step-num::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-content h4 {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    .step-content p {
+      font-size: 11.5px;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
 
     .alert-bar {
-      background: #fff8e6; border-radius: 12px; padding: 10px 12px;
-      font-size: 11.5px; color: #8a6d2a; margin-bottom: 12px;
-      display: flex; gap: 8px; align-items: flex-start; line-height: 1.6;
+      background: #fff8e6;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 11.5px;
+      color: #8a6d2a;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.6;
     }
-    .alert-bar .alert-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+    .alert-bar .alert-icon {
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
 
     .sidebar-card {
-      background: var(--white); border-radius: var(--radius);
-      padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow-card);
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
     }
+
     .sidebar-card h4 {
-      font-size: 13.5px; font-weight: 700; color: var(--text);
-      margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .sidebar-card h4 svg { color: var(--primary); }
+
+    .sidebar-card h4 svg {
+      color: var(--primary);
+    }
+
     .info-row {
-      font-size: 12px; color: var(--text-mid);
-      display: flex; justify-content: space-between;
-      padding: 5px 0; border-bottom: 1px dashed var(--border);
+      font-size: 12px;
+      color: var(--text-mid);
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--border);
     }
-    .info-row:last-child { border-bottom: none; }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
 
     .check-item {
-      display: flex; align-items: flex-start; gap: 9px;
-      padding: 9px 10px; border-radius: 10px;
-      transition: background 0.2s; cursor: pointer;
-      font-size: 12.5px; color: var(--text-mid); line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      cursor: pointer;
+      font-size: 12.5px;
+      color: var(--text-mid);
+      line-height: 1.5;
     }
-    .check-item:hover { background: var(--primary-light); }
-    .check-item.checked { opacity: 0.45; text-decoration: line-through; }
+
+    .check-item:hover {
+      background: var(--primary-light);
+    }
+
+    .check-item.checked {
+      opacity: 0.45;
+      text-decoration: line-through;
+    }
+
     .check-box {
-      width: 17px; height: 17px; border-radius: 5px; flex-shrink: 0;
+      width: 17px;
+      height: 17px;
+      border-radius: 5px;
+      flex-shrink: 0;
       border: 1.8px solid var(--primary);
-      display: flex; align-items: center; justify-content: center;
-      margin-top: 2px; transition: all 0.2s;
-      font-size: 10px; color: transparent; background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      transition: all 0.2s;
+      font-size: 10px;
+      color: transparent;
+      background: var(--white);
     }
-    .check-item.checked .check-box { background: var(--primary); color: #fff; }
+
+    .check-item.checked .check-box {
+      background: var(--primary);
+      color: #fff;
+    }
 
     /* ==================== 路线页 ==================== */
-    .page-head { display: flex; align-items: center; gap: 10px; margin: 6px 2px 4px; }
+    .page-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 2px 4px;
+    }
+
     .page-head-icon {
-      width: 38px; height: 38px; border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
       background: var(--primary-light);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: var(--primary-dark);
     }
-    .page-head h2 { font-size: 19px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; }
-    .page-sub { font-size: 12.5px; color: var(--text-light); margin: 0 2px 14px; letter-spacing: 0.3px; }
+
+    .page-head h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.5px;
+    }
+
+    .page-sub {
+      font-size: 12.5px;
+      color: var(--text-light);
+      margin: 0 2px 14px;
+      letter-spacing: 0.3px;
+    }
 
     .route-card {
-      position: relative; border-radius: 20px; overflow: hidden;
-      aspect-ratio: 16 / 6.4; margin-bottom: 12px;
-      cursor: pointer; background: #1a2b2d;
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 16 / 6.4;
+      margin-bottom: 12px;
+      cursor: pointer;
+      background: #1a2b2d;
       box-shadow: 0 4px 18px rgba(26, 43, 45, 0.10);
       transition: transform 0.15s;
     }
-    .route-card:active { transform: scale(0.98); }
-    .route-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .route-card:active {
+      transform: scale(0.98);
+    }
+
+    .route-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .route-card::after {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.1) 55%, transparent 100%);
     }
+
     .route-badge {
-      position: absolute; top: 10px; right: 10px; z-index: 2;
-      background: rgba(255, 255, 255, 0.82); color: var(--primary-dark);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      padding: 5px 12px; border-radius: 16px;
-      font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--primary-dark);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
     }
+
     .route-info {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      z-index: 2; padding: 0 16px 12px; color: #fff;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 0 16px 12px;
+      color: #fff;
     }
-    .route-info h3 { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 2px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
-    .route-info p { font-size: 11.5px; opacity: 0.92; letter-spacing: 0.3px; }
+
+    .route-info h3 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .route-info p {
+      font-size: 11.5px;
+      opacity: 0.92;
+      letter-spacing: 0.3px;
+    }
 
     .route-back {
-      background: var(--white); border: 1px solid var(--border);
-      border-radius: 16px; padding: 6px 14px;
-      font-size: 12px; color: var(--primary-dark); font-weight: 600;
-      margin: 2px 0 8px; box-shadow: var(--shadow-card);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin: 2px 0 8px;
+      box-shadow: var(--shadow-card);
     }
-    .route-detail-title { font-size: 17px; font-weight: 700; margin: 6px 2px 2px; }
-    .route-detail-sub { font-size: 12px; color: var(--text-light); margin: 0 2px 8px; }
+
+    .route-detail-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 6px 2px 2px;
+    }
+
+    .route-detail-sub {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 0 2px 8px;
+    }
 
     .day-title {
-      font-size: 14px; font-weight: 700; color: var(--primary-dark);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-dark);
       margin: 18px 0 12px 4px;
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+
     .day-title::before {
-      content: ''; width: 3px; height: 14px; border-radius: 2px;
+      content: '';
+      width: 3px;
+      height: 14px;
+      border-radius: 2px;
       background: var(--primary);
     }
-    .timeline { padding-left: 22px; position: relative; }
+
+    .timeline {
+      padding-left: 22px;
+      position: relative;
+    }
+
     .timeline::before {
-      content: ''; position: absolute;
-      left: 7px; top: 8px; bottom: 8px; width: 2px;
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
       background: linear-gradient(180deg, var(--primary), #c8e4e6);
       border-radius: 1px;
     }
+
     .timeline-item {
-      position: relative; margin-bottom: 10px;
-      background: var(--white); border-radius: 14px;
-      padding: 13px 14px; box-shadow: var(--shadow-card);
+      position: relative;
+      margin-bottom: 10px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 13px 14px;
+      box-shadow: var(--shadow-card);
     }
+
     .timeline-item::before {
-      content: ''; position: absolute;
-      left: -21px; top: 18px;
-      width: 10px; height: 10px; border-radius: 50%;
+      content: '';
+      position: absolute;
+      left: -21px;
+      top: 18px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       background: var(--primary);
       border: 2.5px solid var(--bg);
       box-shadow: 0 0 0 1.5px var(--primary);
     }
-    .timeline-item h4 { font-size: 13px; color: var(--text); font-weight: 600; margin-bottom: 3px; padding-right: 32px; }
-    .timeline-item p { font-size: 11.5px; color: var(--text-light); line-height: 1.55; }
-    .timeline-item .tl-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+
+    .timeline-item h4 {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+      padding-right: 32px;
+    }
+
+    .timeline-item p {
+      font-size: 11.5px;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    .timeline-item .tl-tags {
+      display: flex;
+      gap: 5px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
     .tl-tag {
-      font-size: 10px; padding: 2px 8px; border-radius: 8px;
-      background: var(--primary-light); color: var(--primary-dark); font-weight: 500;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 500;
     }
+
     .fav-mini {
-      position: absolute; right: 12px; top: 12px;
-      width: 26px; height: 26px; border-radius: 50%;
-      background: var(--white); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; cursor: pointer; transition: transform 0.2s;
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    .fav-mini:active { transform: scale(0.9); }
+
+    .fav-mini:active {
+      transform: scale(0.9);
+    }
 
     /* ==================== 我的 ==================== */
     .profile-header {
       background: linear-gradient(135deg, #6bb8be 0%, #4d99a0 100%);
-      border-radius: 20px; padding: 24px 20px;
-      color: #fff; display: flex; align-items: center; gap: 14px;
+      border-radius: 20px;
+      padding: 24px 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 14px;
       margin-bottom: 16px;
       box-shadow: 0 6px 20px rgba(91, 168, 174, 0.25);
     }
+
     .profile-avatar {
-      width: 56px; height: 56px; border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
       background: rgba(255, 255, 255, 0.22);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
       border: 2px solid rgba(255, 255, 255, 0.4);
     }
-    .profile-info h2 { font-size: 16px; font-weight: 700; margin-bottom: 3px; letter-spacing: 0.5px; }
-    .profile-info p { font-size: 11.5px; opacity: 0.9; }
 
-    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-    .stat-card {
-      background: var(--white); border-radius: 14px;
-      padding: 12px 6px; text-align: center; box-shadow: var(--shadow-card);
+    .profile-info h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      letter-spacing: 0.5px;
     }
-    .stat-num { font-size: 20px; font-weight: 700; color: var(--primary-dark); line-height: 1.1; }
-    .stat-label { font-size: 10.5px; color: var(--text-light); margin-top: 3px; }
+
+    .profile-info p {
+      font-size: 11.5px;
+      opacity: 0.9;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      color: var(--text-light);
+      margin-top: 3px;
+    }
 
     .mine-section {
-      background: var(--white); border-radius: var(--radius);
-      padding: 15px; margin-bottom: 12px; box-shadow: var(--shadow-card);
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
     }
+
     .mine-section h3 {
-      font-size: 13.5px; font-weight: 700; color: var(--text);
-      margin-bottom: 10px; display: flex; align-items: center; gap: 7px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
+
     .count-badge {
-      background: var(--primary-light); color: var(--primary-dark);
-      font-size: 10.5px; padding: 1px 8px; border-radius: 8px; font-weight: 600;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 10.5px;
+      padding: 1px 8px;
+      border-radius: 8px;
+      font-weight: 600;
     }
-    .mine-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .mine-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .mine-item {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 9px 11px; border-radius: 10px;
-      background: #f6fafb; gap: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 11px;
+      border-radius: 10px;
+      background: #f6fafb;
+      gap: 8px;
     }
+
     .mine-item-title {
-      font-size: 12.5px; font-weight: 500; color: var(--text);
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .mine-item-desc { font-size: 10.5px; color: var(--text-light); margin-top: 1px; }
+
+    .mine-item-desc {
+      font-size: 10.5px;
+      color: var(--text-light);
+      margin-top: 1px;
+    }
+
     .remove-btn {
-      background: none; border: none; color: #c94a4a;
-      font-size: 11px; padding: 4px 8px; border-radius: 6px;
-      flex-shrink: 0; transition: background 0.2s;
+      background: none;
+      border: none;
+      color: #c94a4a;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      transition: background 0.2s;
     }
-    .remove-btn:hover { background: #ffeaea; }
-    .empty-hint { text-align: center; padding: 16px; color: var(--text-light); font-size: 12px; }
+
+    .remove-btn:hover {
+      background: #ffeaea;
+    }
+
+    .empty-hint {
+      text-align: center;
+      padding: 16px;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
     .danger-btn {
-      width: 100%; margin-top: 6px; background: #fff;
-      border: 1.5px solid var(--border); color: #a04a4a;
-      padding: 10px; border-radius: 10px;
-      font-size: 13px; transition: all 0.2s;
+      width: 100%;
+      margin-top: 6px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      color: #a04a4a;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      transition: all 0.2s;
     }
-    .danger-btn:hover { background: #fff5f5; border-color: #e5b5b5; }
+
+    .danger-btn:hover {
+      background: #fff5f5;
+      border-color: #e5b5b5;
+    }
 
     /* ==================== 底部导航 ==================== */
     .tab-bar {
-      position: fixed; bottom: 0;
-      left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 480px; height: var(--tabbar-h);
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: var(--tabbar-h);
       background: var(--white);
-      display: grid; grid-template-columns: repeat(5, 1fr);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
       border-top: 1px solid var(--border);
       z-index: 100;
       padding-bottom: env(safe-area-inset-bottom, 0);
       box-shadow: 0 -2px 12px rgba(26, 43, 45, 0.04);
     }
-    .tab-btn {
-      background: none; border: none;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 2px; color: var(--text-light);
-      transition: color 0.2s; padding: 6px 0 2px;
-    }
-    .tab-btn svg { width: 22px; height: 22px; transition: transform 0.2s; }
-    .tab-btn span { font-size: 10px; letter-spacing: 0.3px; font-weight: 500; }
-    .tab-btn.active { color: var(--primary-dark); }
-    .tab-btn.active svg { transform: translateY(-1px) scale(1.08); }
 
-    /* ==================== 开屏动画（修复点击穿透） ==================== */
+    .tab-btn {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: var(--text-light);
+      transition: color 0.2s;
+      padding: 6px 0 2px;
+    }
+
+    .tab-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s;
+    }
+
+    .tab-btn span {
+      font-size: 10px;
+      letter-spacing: 0.3px;
+      font-weight: 500;
+    }
+
+    .tab-btn.active {
+      color: var(--primary-dark);
+    }
+
+    .tab-btn.active svg {
+      transform: translateY(-1px) scale(1.08);
+    }
+
+    /* ==================== 开屏动画 ==================== */
     #splash-screen {
-      position: fixed; inset: 0; z-index: 9999;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
       background: radial-gradient(circle at center, #7fb3b8 0%, #5f9aa0 100%);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 1;
       transition: opacity 0.8s ease, visibility 0.8s ease;
-      cursor: pointer;
-      pointer-events: auto;
     }
-    #splash-screen.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-    #splash-video {
-      width: 42vw; max-width: 320px; min-width: 220px;
-      height: auto; object-fit: contain; display: block;
-      border-radius: 12px;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+
+    #splash-screen.hide {
+      opacity: 0;
+      visibility: hidden;
       pointer-events: none;
     }
-    @media (max-width: 640px) {
-      #splash-video { width: 70vw; max-width: none; }
+
+    #splash-video {
+      width: 42vw;
+      max-width: 320px;
+      min-width: 220px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
     }
+
+    @media (max-width: 640px) {
+      #splash-video {
+        width: 70vw;
+        max-width: none;
+      }
+    }
+
     #splash-skip {
-      position: absolute; right: 20px; bottom: 24px;
+      position: absolute;
+      right: 20px;
+      bottom: 24px;
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.45);
       color: rgba(255, 255, 255, 0.95);
-      padding: 7px 16px; border-radius: 20px;
-      font-size: 12px; letter-spacing: 0.5px;
-      transition: all 0.25s; z-index: 10001;
-      pointer-events: auto; cursor: pointer;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      transition: all 0.25s;
+      z-index: 10000;
     }
-    #splash-skip:hover { background: rgba(255, 255, 255, 0.35); color: #fff; }
+
+    #splash-skip:hover {
+      background: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+
+    /* ==================== 第二页 · 千佛山3D旋转预览开幕 ==================== */
+    .map-intro {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      /* 改为白色背景 */
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .map-intro.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* 9:16 竖屏视频舞台，居中显示，完整不裁切 */
+    .map-intro-inner {
+      position: relative;
+      width: min(100%, calc(100dvh * 9 / 16));
+      aspect-ratio: 9 / 16;
+      max-height: 100dvh;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ffffff;
+      /* 改为白色背景 */
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    #mapIntroVideo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* 完整显示整个视频，不裁切 */
+      display: block;
+      background: transparent;
+      /* 透明背景，让容器的白色透出来 */
+    }
+
+    .map-intro-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 60px 18px calc(24px + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0) 100%);
+      color: #fff;
+      z-index: 2;
+      pointer-events: none;
+      animation: mapIntroUp 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes mapIntroUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .map-intro-caption h3 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin-bottom: 5px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .map-intro-caption p {
+      font-size: 11.5px;
+      opacity: 0.82;
+      letter-spacing: 0.4px;
+    }
+
+    .map-intro-progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2.5px;
+      background: rgba(255, 255, 255, 0.16);
+      z-index: 3;
+    }
+
+    .map-intro-progress-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #9fe0e4, #ffffff);
+      border-radius: 0 2px 2px 0;
+      transition: width 0.25s linear;
+    }
+
+    #mapIntroSkip {
+      position: absolute;
+      top: calc(14px + env(safe-area-inset-top, 0px));
+      right: 14px;
+      z-index: 4;
+      background: rgba(0, 0, 0, 0.32);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: rgba(255, 255, 255, 0.92);
+      padding: 6px 13px;
+      border-radius: 18px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.25s;
+    }
+
+    #mapIntroSkip:active {
+      background: rgba(0, 0, 0, 0.5);
+    }
 
     /* ==================== 实时导航 ==================== */
     .photo-nav {
-      margin-top: 10px; background: var(--primary); color: #fff;
-      border: none; padding: 8px 16px; border-radius: 18px;
-      font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+      margin-top: 10px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
     }
+
     .poi-nav {
-      flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
-      border: none; background: var(--primary-light); color: var(--primary-dark);
-      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .poi-nav svg { width: 17px; height: 17px; pointer-events: none; }
+
+    .poi-nav svg {
+      width: 17px;
+      height: 17px;
+      pointer-events: none;
+    }
 
     .nav-sheet {
-      position: fixed; inset: 0; z-index: 300; visibility: hidden;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      visibility: hidden;
     }
-    .nav-sheet.open { visibility: visible; }
+
+    .nav-sheet.open {
+      visibility: visible;
+    }
+
     .nav-mask {
-      position: absolute; inset: 0;
+      position: absolute;
+      inset: 0;
       background: rgba(10, 20, 22, 0.5);
-      opacity: 0; transition: opacity 0.3s;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
-    .nav-sheet.open .nav-mask { opacity: 1; }
+
+    .nav-sheet.open .nav-mask {
+      opacity: 1;
+    }
+
     .nav-panel {
-      position: absolute; left: 50%; bottom: 0;
-      width: 100%; max-width: 480px; max-height: 92vh;
-      overflow-y: auto; background: var(--bg);
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      max-height: 92vh;
+      overflow-y: auto;
+      background: var(--bg);
       border-radius: 22px 22px 0 0;
       padding: 14px 14px calc(16px + env(safe-area-inset-bottom, 0px));
       transform: translate(-50%, 100%);
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .nav-sheet.open .nav-panel { transform: translate(-50%, 0); }
+
+    .nav-sheet.open .nav-panel {
+      transform: translate(-50%, 0);
+    }
+
     .nav-head {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      gap: 10px; margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
     }
-    .nav-title { font-size: 15px; font-weight: 700; color: var(--text); }
-    .nav-status { font-size: 11.5px; color: var(--text-light); margin-top: 2px; }
+
+    .nav-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-status {
+      font-size: 11.5px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
     .nav-close {
-      width: 30px; height: 30px; border-radius: 50%;
-      border: none; background: var(--white); color: var(--text-mid);
-      font-size: 13px; flex-shrink: 0; box-shadow: var(--shadow-card);
-    }
-    .nav-map-wrap {
-      position: relative; height: 260px; border-radius: 16px;
-      overflow: hidden; background: #dceef0; margin-bottom: 10px;
-    }
-    #navMap { width: 100%; height: 100%; }
-    .nav-locate {
-      position: absolute; right: 10px; bottom: 10px; z-index: 5;
-      width: 36px; height: 36px; border-radius: 50%;
-      border: none; background: var(--white); color: var(--primary-dark);
-      font-size: 18px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-    .nav-modes { display: flex; gap: 8px; margin-bottom: 10px; }
-    .nav-mode {
-      flex: 1; padding: 8px 0; border-radius: 14px;
-      border: 1.5px solid var(--border); background: var(--white);
-      color: var(--text-mid); font-size: 12.5px; font-weight: 500;
-    }
-    .nav-mode.active { background: var(--primary); border-color: var(--primary); color: #fff; }
-    .nav-summary {
-      background: var(--white); border-radius: 14px;
-      padding: 11px 14px; font-size: 12.5px; color: var(--text-mid);
-      margin-bottom: 10px; box-shadow: var(--shadow-card);
-    }
-    .nav-summary b { font-size: 16px; color: var(--primary-dark); }
-    .nav-steps {
-      max-height: 150px; overflow-y: auto;
-      background: var(--white); border-radius: 14px;
-      padding: 4px 14px; margin-bottom: 12px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: var(--white);
+      color: var(--text-mid);
+      font-size: 13px;
+      flex-shrink: 0;
       box-shadow: var(--shadow-card);
     }
-    .nav-steps:empty { display: none; }
-    .nav-step {
-      display: flex; gap: 8px; padding: 8px 0;
-      font-size: 11.5px; color: var(--text-mid);
-      border-bottom: 1px dashed var(--border); line-height: 1.5;
+
+    .nav-map-wrap {
+      position: relative;
+      height: 260px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #dceef0;
+      margin-bottom: 10px;
     }
-    .nav-step:last-child { border-bottom: none; }
-    .nav-step i { font-style: normal; color: var(--primary-dark); font-weight: 700; flex-shrink: 0; }
+
+    #navMap {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav-locate {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 5;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--white);
+      color: var(--primary-dark);
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-modes {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .nav-mode {
+      flex: 1;
+      padding: 8px 0;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-mid);
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+
+    .nav-mode.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .nav-summary {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: var(--text-mid);
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .nav-summary b {
+      font-size: 16px;
+      color: var(--primary-dark);
+    }
+
+    .nav-steps {
+      max-height: 150px;
+      overflow-y: auto;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 4px 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .nav-steps:empty {
+      display: none;
+    }
+
+    .nav-step {
+      display: flex;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 11.5px;
+      color: var(--text-mid);
+      border-bottom: 1px dashed var(--border);
+      line-height: 1.5;
+    }
+
+    .nav-step:last-child {
+      border-bottom: none;
+    }
+
+    .nav-step i {
+      font-style: normal;
+      color: var(--primary-dark);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
     .nav-app-btn {
-      display: block; text-align: center;
+      display: block;
+      text-align: center;
       background: linear-gradient(135deg, #6bb8be, #4d99a0);
-      color: #fff; text-decoration: none;
-      padding: 12px; border-radius: 16px;
-      font-size: 13.5px; font-weight: 600; letter-spacing: 0.4px;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
       box-shadow: 0 4px 14px rgba(91, 168, 174, 0.3);
     }
+
     .nav-marker-me {
-      width: 16px; height: 16px; border-radius: 50%;
-      background: #2f80ed; border: 3px solid #fff;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2f80ed;
+      border: 3px solid #fff;
       box-shadow: 0 0 0 6px rgba(47, 128, 237, 0.25);
     }
   </style>
@@ -804,14 +2051,10 @@
 
 <body>
 
-  <!-- ==================== 开屏动画 ====================
-       关键：给整个遮罩挂行内 onclick，不依赖 JS 绑定，100% 生效 -->
-  <div id="splash-screen"
-    onclick="this.classList.add('hide');var s=this;setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);},900);">
+  <!-- ==================== 开屏动画 ==================== -->
+  <div id="splash-screen">
     <video id="splash-video" src="开屏动画.mp4" autoplay muted playsinline preload="auto"></video>
-    <button id="splash-skip" type="button"
-      onclick="event.stopPropagation();var s=document.getElementById('splash-screen');if(s){s.classList.add('hide');setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s);},900);}">跳过
-      ›</button>
+    <button id="splash-skip">跳过 ›</button>
   </div>
 
   <div class="app">
@@ -820,10 +2063,7 @@
     <header class="header">
       <div class="logo">
         <div class="logo-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 20l6-12 5 8 3-4 4 8z" />
-          </svg>
+          <img src="logo.jpg" alt="云上千佛" />
         </div>
         <div class="logo-text">
           <span class="cn">云上千佛</span>
@@ -890,6 +2130,7 @@
         </button>
       </div>
 
+      <!-- 千佛山登山攻略 -->
       <div class="section-header">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
@@ -912,6 +2153,7 @@
         </div>
       </div>
 
+      <!-- 特色住宿 -->
       <div class="section-header">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
@@ -976,6 +2218,7 @@
         </div>
       </div>
 
+      <!-- 季节主题路线 -->
       <div class="section-header" id="season-section">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
@@ -994,6 +2237,7 @@
       </div>
       <div id="season-content"></div>
 
+      <!-- 四季图片卡 -->
       <div class="section-header" style="margin-top:22px;">
         <div class="section-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
@@ -1031,7 +2275,25 @@
       </div>
     </div>
 
-    <!-- ==================== 第二页 ==================== -->
+    <!-- ==================== 第二页 · 千佛山3D旋转预览开幕 ==================== -->
+    <div class="map-intro" id="mapIntro" aria-hidden="true">
+      <div class="map-intro-inner">
+        <video id="mapIntroVideo" src="千佛山3D旋转预览.mp4" muted playsinline preload="metadata" loop></video>
+
+        <div class="map-intro-caption">
+          <h3>千佛山 · 3D 旋转预览</h3>
+          <p>360° 环视山体全貌 · 即将进入乡旅地图</p>
+        </div>
+
+        <div class="map-intro-progress">
+          <div class="map-intro-progress-bar" id="mapIntroBar"></div>
+        </div>
+
+        <button id="mapIntroSkip">跳过 <span id="mapIntroCount">10</span></button>
+      </div>
+    </div>
+
+    <!-- ==================== 第二页 · 沙盘 + 实景 ==================== -->
     <div class="page" id="page-map">
 
       <div class="map-stage">
@@ -1186,9 +2448,10 @@
       </div>
     </div>
 
-    <!-- ==================== 路线页 ==================== -->
+    <!-- ==================== 路线页（卡片列表 + 详情） ==================== -->
     <div class="page" id="page-route">
 
+      <!-- 列表视图 -->
       <div id="route-list-view">
         <div class="page-head">
           <div class="page-head-icon">
@@ -1204,6 +2467,7 @@
         <div id="route-cards"></div>
       </div>
 
+      <!-- 详情视图 -->
       <div id="route-detail-view" style="display:none;">
         <button class="route-back" id="routeBack">‹ 返回路线列表</button>
         <div class="route-detail-title" id="routeDetailTitle"></div>
@@ -1365,16 +2629,56 @@
        Hero 轮播数据
        ============================================================ */
     const HERO_SLIDES = [
-      { img: '千佛山景观.jpg', title: '千佛山 · 星空露营', sub: '以千佛山为中心 · 千佛镇全域绿色农旅', pills: ['主峰 2942m', '国家森林公园', '大熊猫国家公园'] },
-      { img: '千佛山日出景观2.jpg', title: '千佛山 · 日出云海', sub: '凌晨登顶 · 观云海日出奇观', pills: ['日出 6:30', '云海概率高', '需提前登顶'] },
-      { img: '千佛山山顶冬季云海.jpg', title: '千佛山 · 冬季云海', sub: '白雪蓝天 · 雾凇冰挂', pills: ['12–2月', '需冰爪', '专业装备'] },
-      { img: '千佛山山顶雪景1.jpg', title: '千佛山 · 冰雪童话', sub: '银装素裹 · 山顶雪景', pills: ['最佳摄影', '云海日出', '海拔 2942m'] },
-      { img: '千佛山秋季山顶云海.jpg', title: '千佛山 · 云海奇观', sub: '层云叠浪 · 如临仙境', pills: ['10–11月', '摄影胜地'] },
-      { img: '山顶远眺雪山群峰.png', title: '千佛山 · 远眺雪山', sub: '主峰远眺 · 群山连绵', pills: ['色彩斑斓', '适合徒步'] },
-      { img: '千佛山秋季美景2.jpg', title: '千佛山 · 云海远眺', sub: '云海之上 · 一览众山', pills: ['4–5月', '70+ 品种', '花海徒步'] },
-      { img: '雾凇登山道.jpg', title: '千佛山 · 雾凇登山道', sub: '雾凇凝结 · 步步如画', pills: ['红色研学', '全天开放', '省级基地'] },
-      { img: '千佛山秋季美景1.jpg', title: '千佛山 · 秋叶红了', sub: '层林尽染 · 红叶映蓝天', pills: ['9–11月', '红叶', '摄影胜地'] },
-      { img: '千佛山秋季美景3.jpg', title: '千佛山 · 秋色栈道', sub: '红栈道盘山而上 · 一步一景', pills: ['9–11月', '观景步道', '适合徒步'] },
+      {
+        img: '千佛山景观.jpg',
+        title: '千佛山 · 星空露营', sub: '以千佛山为中心 · 千佛镇全域绿色农旅',
+        pills: ['主峰 2942m', '国家森林公园', '大熊猫国家公园']
+      },
+      {
+        img: '千佛山日出景观2.jpg',
+        title: '千佛山 · 日出云海', sub: '凌晨登顶 · 观云海日出奇观',
+        pills: ['日出 6:30', '云海概率高', '需提前登顶']
+      },
+      {
+        img: '千佛山山顶冬季云海.jpg',
+        title: '千佛山 · 冬季云海', sub: '白雪蓝天 · 雾凇冰挂',
+        pills: ['12–2月', '需冰爪', '专业装备']
+      },
+      {
+        img: '千佛山山顶雪景1.jpg',
+        title: '千佛山 · 冰雪童话', sub: '银装素裹 · 山顶雪景',
+        pills: ['最佳摄影', '云海日出', '海拔 2942m']
+      },
+      {
+        img: '千佛山秋季山顶云海.jpg',
+        title: '千佛山 · 云海奇观', sub: '层云叠浪 · 如临仙境',
+        pills: ['10–11月', '摄影胜地']
+      },
+      {
+        img: '山顶远眺雪山群峰.png',
+        title: '千佛山 · 远眺雪山', sub: '主峰远眺 · 群山连绵',
+        pills: ['色彩斑斓', '适合徒步']
+      },
+      {
+        img: '千佛山秋季美景2.jpg',
+        title: '千佛山 · 云海远眺', sub: '云海之上 · 一览众山',
+        pills: ['4–5月', '70+ 品种', '花海徒步']
+      },
+      {
+        img: '雾凇登山道.jpg',
+        title: '千佛山 · 雾凇登山道', sub: '雾凇凝结 · 步步如画',
+        pills: ['红色研学', '全天开放', '省级基地']
+      },
+      {
+        img: '千佛山秋季美景1.jpg',
+        title: '千佛山 · 秋叶红了', sub: '层林尽染 · 红叶映蓝天',
+        pills: ['9–11月', '红叶', '摄影胜地']
+      },
+      {
+        img: '千佛山秋季美景3.jpg',
+        title: '千佛山 · 秋色栈道', sub: '红栈道盘山而上 · 一步一景',
+        pills: ['9–11月', '观景步道', '适合徒步']
+      },
     ];
 
     /* ============================================================
@@ -1404,27 +2708,120 @@
       ],
 
       spots: [
-        { id: 's1', name: '千佛山·主峰', cat: 'spot', icon: 'mountain', desc: '国家森林公园 · 云海日出 · 四季四景', time: '全天开放', tip: '海拔 2942m', photo: '千佛山山顶冬季云海.jpg' },
-        { id: 's2', name: '祖佛庙（千佛庙）遗址', cat: 'red', icon: 'flag', desc: '千佛山战役指挥所遗址 · 海拔约 2922 米', time: '全天', tip: '云海日出绝佳', photo: '祖佛庙遗址.jpg' },
-        { id: 's3', name: '千佛山漂流', cat: 'spot', icon: 'raft', desc: '峡谷漂流 · 山泉水河道 · 夏季清凉', time: '6月–8月 09:00–17:00', tip: '0816-4466999', photo: '千佛山漂流接待点.png' },
-        { id: 's4', name: '龙神堂停车场·登山起点', cat: 'supply', icon: 'parking', desc: '千佛山徒步起点的换乘与补给点', time: '全天', tip: '停车 10–20 元/天', photo: '龙神堂停车场-登山起点.jpg' },
-        { id: 's5', name: '老望沟村红色走廊', cat: 'red', icon: 'flag', desc: '全国红色美丽村庄 · 2.5 公里红色走廊', time: '全天', tip: '省级研学基地', photo: '老王沟红色走廊.jpg' },
-        { id: 's6', name: '金溪湖', cat: 'spot', icon: 'lake', desc: '漂流河道起点 · 高山湖泊', time: '全天', tip: '观景拍照', photo: '漂流景观.png' },
-        { id: 's7', name: '千佛山万家农家乐', cat: 'food', icon: 'bowl', desc: '农家菜 · 本地风味', time: '全年', tip: '可接待团队', photo: '漂流河道景观.png' },
-        { id: 's8', name: '千佛山水上乐园游客接待中心', cat: 'supply', icon: 'food', desc: '土鸡 · 山腊肉 · 野菜 · 石磨豆腐', time: '全年', tip: '餐饮补给', photo: '漂流接待中心.png' },
-        { id: 's9', name: '半山腰接待点', cat: 'supply', icon: 'house', desc: '登山中段 · 接待休息', time: '全天', tip: '中途休整', photo: '半山腰接待点.jpg' },
-        { id: 's10', name: '售票处·汽车接应点', cat: 'supply', icon: 'house', desc: '登山起点 · 检票与换乘指引', time: '06:30–18:30', tip: '小黄车换乘', photo: '盘山公路接应.jpg' },
-        { id: 's11', name: '木言别院民宿', cat: 'stay', icon: 'building', desc: '独门独院 · 门前小河 · 森林康养', time: '全年', tip: '需提前预订', photo: '千佛民宿.png' },
-        { id: 's12', name: '三生·三和民宿', cat: 'stay', icon: 'building', desc: '禅意山野小院 · 老木料青瓦土墙', time: '全年', tip: '禅意主题', photo: '千佛民宿2.png' },
-        { id: 's13', name: '浅山溪语民宿', cat: 'stay', icon: 'building', desc: '千佛山漂流起点 · 溪流小瀑布', time: '全年', tip: '溪边玩水', photo: '千佛民宿3.png' },
-        { id: 's14', name: '花间岭·千佛', cat: 'stay', icon: 'building', desc: '花间堂品牌 · 景观客房', time: '全年', tip: '高端度假', photo: '千佛山景点民宿.jpg' },
-        { id: 's15', name: '千佛镇场镇·川心村', cat: 'village', icon: 'village', desc: '镇政府驻地 · 生活用品与餐饮补给', time: '工作日 09:00–17:00', tip: '集中补给点', photo: '漂流河道景观.png' },
-        { id: 's16', name: '登山口补给站', cat: 'supply', icon: 'shop', desc: '徒步起点处的小卖与补给', time: '07:00–21:00', tip: '最后的补给站', photo: '雾凇登山道.jpg' },
-        { id: 's17', name: '千佛山自然教育中心', cat: 'spot', icon: 'mountain', desc: '大熊猫国家公园自然科普窗口', time: '全天', tip: '科普研学', photo: '山间幽径奇树.png' },
-        { id: 's18', name: '万福山庄', cat: 'stay', icon: 'building', desc: '餐饮 · 住宿 · 停车 · 棋牌', time: '全年', tip: '需提前预订', photo: '万福山庄民宿大门.png' },
+        {
+          id: 's1', name: '千佛山·主峰', cat: 'spot', icon: 'mountain',
+          desc: '国家森林公园 · 云海日出 · 四季四景',
+          time: '全天开放', tip: '海拔 2942m',
+          photo: '千佛山山顶冬季云海.jpg'
+        },
+        {
+          id: 's2', name: '祖佛庙（千佛庙）遗址', cat: 'red', icon: 'flag',
+          desc: '千佛山战役指挥所遗址 · 海拔约 2922 米',
+          time: '全天', tip: '云海日出绝佳',
+          photo: '祖佛庙遗址.jpg'
+        },
+        {
+          id: 's3', name: '千佛山漂流', cat: 'spot', icon: 'raft',
+          desc: '峡谷漂流 · 山泉水河道 · 夏季清凉',
+          time: '6月–8月 09:00–17:00', tip: '0816-4466999',
+          photo: '千佛山漂流接待点.png'
+        },
+        {
+          id: 's4', name: '龙神堂停车场·登山起点', cat: 'supply', icon: 'parking',
+          desc: '千佛山徒步起点的换乘与补给点',
+          time: '全天', tip: '停车 10–20 元/天',
+          photo: '龙神堂停车场-登山起点.jpg'
+        },
+        {
+          id: 's5', name: '老望沟村红色走廊', cat: 'red', icon: 'flag',
+          desc: '全国红色美丽村庄 · 2.5 公里红色走廊',
+          time: '全天', tip: '省级研学基地',
+          photo: '老王沟红色走廊.jpg'
+        },
+        {
+          id: 's6', name: '金溪湖', cat: 'spot', icon: 'lake',
+          desc: '漂流河道起点 · 高山湖泊',
+          time: '全天', tip: '观景拍照',
+          photo: '漂流景观.png'
+        },
+        {
+          id: 's7', name: '千佛山万家农家乐', cat: 'food', icon: 'bowl',
+          desc: '农家菜 · 本地风味',
+          time: '全年', tip: '可接待团队',
+          photo: '漂流河道景观.png'
+        },
+        {
+          id: 's8', name: '千佛山水上乐园游客接待中心', cat: 'supply', icon: 'food',
+          desc: '土鸡 · 山腊肉 · 野菜 · 石磨豆腐',
+          time: '全年', tip: '餐饮补给',
+          photo: '漂流接待中心.png'
+        },
+        {
+          id: 's9', name: '半山腰接待点', cat: 'supply', icon: 'house',
+          desc: '登山中段 · 接待休息',
+          time: '全天', tip: '中途休整',
+          photo: '半山腰接待点.jpg'
+        },
+        {
+          id: 's10', name: '售票处·汽车接应点', cat: 'supply', icon: 'house',
+          desc: '登山起点 · 检票与换乘指引',
+          time: '06:30–18:30', tip: '小黄车换乘',
+          photo: '盘山公路接应.jpg'
+        },
+        {
+          id: 's11', name: '木言别院民宿', cat: 'stay', icon: 'building',
+          desc: '独门独院 · 门前小河 · 森林康养',
+          time: '全年', tip: '需提前预订',
+          photo: '千佛民宿.png'
+        },
+        {
+          id: 's12', name: '三生·三和民宿', cat: 'stay', icon: 'building',
+          desc: '禅意山野小院 · 老木料青瓦土墙',
+          time: '全年', tip: '禅意主题',
+          photo: '千佛民宿2.png'
+        },
+        {
+          id: 's13', name: '浅山溪语民宿', cat: 'stay', icon: 'building',
+          desc: '千佛山漂流起点 · 溪流小瀑布',
+          time: '全年', tip: '溪边玩水',
+          photo: '千佛民宿3.png'
+        },
+        {
+          id: 's14', name: '花间岭·千佛', cat: 'stay', icon: 'building',
+          desc: '花间堂品牌 · 景观客房',
+          time: '全年', tip: '高端度假',
+          photo: '千佛山景点民宿.jpg'
+        },
+        {
+          id: 's15', name: '千佛镇场镇·川心村', cat: 'village', icon: 'village',
+          desc: '镇政府驻地 · 生活用品与餐饮补给',
+          time: '工作日 09:00–17:00', tip: '集中补给点',
+          photo: '漂流河道景观.png'
+        },
+        {
+          id: 's16', name: '登山口补给站', cat: 'supply', icon: 'shop',
+          desc: '徒步起点处的小卖与补给',
+          time: '07:00–21:00', tip: '最后的补给站',
+          photo: '雾凇登山道.jpg'
+        },
+        {
+          id: 's17', name: '千佛山自然教育中心', cat: 'spot', icon: 'mountain',
+          desc: '大熊猫国家公园自然科普窗口',
+          time: '全天', tip: '科普研学',
+          photo: '山间幽径奇树.png'
+        },
+        {
+          id: 's18', name: '万福山庄', cat: 'stay', icon: 'building',
+          desc: '餐饮 · 住宿 · 停车 · 棋牌',
+          time: '全年', tip: '需提前预订',
+          photo: '万福山庄民宿大门.png'
+        },
       ],
 
-      catNames: { spot: '景点', stay: '民宿', food: '餐饮', supply: '补给/接待', red: '红色文旅', village: '村/场镇' },
+      catNames: {
+        spot: '景点', stay: '民宿', food: '餐饮',
+        supply: '补给/接待', red: '红色文旅', village: '村/场镇'
+      },
 
       hikingSteps: [
         { t: '自驾/大巴抵达千佛镇', d: '成都出发约 2.5–3 小时，导航"千佛镇龙神堂"。镇上可补充食物和水。' },
@@ -1443,22 +2840,30 @@
       ],
 
       seasons: {
-        spring: { title: '春 · 踏青野餐', color: '#7cb342', routes: [
-          { name: '千佛茶园采茶踏青', desc: '海拔 800m 云雾茶园，1.6 万亩杜鹃花海春季绽放。可体验采茶、野餐。', points: ['千佛茶园', '龙神堂', '清水溪'] },
-          { name: '千佛峡溪谷漫步', desc: '沿茶坪河溪谷轻徒步，适合家庭出游。携带野餐垫和简餐。', points: ['千佛峡', '东益村', '红色走廊'] },
-        ]},
-        summer: { title: '夏 · 避暑漂流露营', color: '#42a5f5', routes: [
-          { name: '千佛山漂流一日游', desc: '"泉水漂"全程落差 300m+，含沙滩娱乐、水上棋牌。千佛镇藏 22°C 清凉。', points: ['漂流接待中心', '沙滩露营区', '千佛镇夜市'] },
-          { name: '星空露营 + 音乐烧烤', desc: '夏季千佛镇湖心岛举办泼水活动、星空音乐会，自助烧烤一站式体验。', points: ['湖心岛', '东益村居委会', '漂流中心'] },
-        ]},
-        autumn: { title: '秋 · 登山野炊', color: '#ef6c00', routes: [
-          { name: '千佛山秋色登顶线', desc: '秋赏枫叶，云海日出震撼。从三千梯登顶约 2 小时。', points: ['龙神堂', '三千梯', '山顶寺庙'] },
-          { name: '红色走廊 + 农家野炊', desc: '老望沟红色长廊徒步后，到清水溪或尚林山莊体验农家野炊。', points: ['红色走廊', '清水溪', '千佛镇老街'] },
-        ]},
-        winter: { title: '冬 · 运动赏雪', color: '#5c6bc0', routes: [
-          { name: '千佛山冰雪徒步', desc: '白雪、蓝天、雾凇、云海构成绝美画卷。冰爪必备，建议早出发。', points: ['龙神堂', '三千梯', '山顶'] },
-          { name: '亲子雪地玩乐', desc: '适合家庭，在千佛镇周边低海拔区域玩雪、堆雪人，安全性更高。', points: ['千佛镇', '千佛峡', '茶园雪景'] },
-        ]},
+        spring: {
+          title: '春 · 踏青野餐', color: '#7cb342', routes: [
+            { name: '千佛茶园采茶踏青', desc: '海拔 800m 云雾茶园，1.6 万亩杜鹃花海春季绽放。可体验采茶、野餐。', points: ['千佛茶园', '龙神堂', '清水溪'] },
+            { name: '千佛峡溪谷漫步', desc: '沿茶坪河溪谷轻徒步，适合家庭出游。携带野餐垫和简餐。', points: ['千佛峡', '东益村', '红色走廊'] },
+          ]
+        },
+        summer: {
+          title: '夏 · 避暑漂流露营', color: '#42a5f5', routes: [
+            { name: '千佛山漂流一日游', desc: '"泉水漂"全程落差 300m+，含沙滩娱乐、水上棋牌。千佛镇藏 22°C 清凉。', points: ['漂流接待中心', '沙滩露营区', '千佛镇夜市'] },
+            { name: '星空露营 + 音乐烧烤', desc: '夏季千佛镇湖心岛举办泼水活动、星空音乐会，自助烧烤一站式体验。', points: ['湖心岛', '东益村居委会', '漂流中心'] },
+          ]
+        },
+        autumn: {
+          title: '秋 · 登山野炊', color: '#ef6c00', routes: [
+            { name: '千佛山秋色登顶线', desc: '秋赏枫叶，云海日出震撼。从三千梯登顶约 2 小时。', points: ['龙神堂', '三千梯', '山顶寺庙'] },
+            { name: '红色走廊 + 农家野炊', desc: '老望沟红色长廊徒步后，到清水溪或尚林山莊体验农家野炊。', points: ['红色走廊', '清水溪', '千佛镇老街'] },
+          ]
+        },
+        winter: {
+          title: '冬 · 运动赏雪', color: '#5c6bc0', routes: [
+            { name: '千佛山冰雪徒步', desc: '白雪、蓝天、雾凇、云海构成绝美画卷。冰爪必备，建议早出发。', points: ['龙神堂', '三千梯', '山顶'] },
+            { name: '亲子雪地玩乐', desc: '适合家庭，在千佛镇周边低海拔区域玩雪、堆雪人，安全性更高。', points: ['千佛镇', '千佛峡', '茶园雪景'] },
+          ]
+        },
       },
 
       checklist: [
@@ -1472,42 +2877,64 @@
         { id: 'c8', text: '保留小黄车票根，勿走不熟悉小路' },
       ],
 
+      /* 路线节点（按“天”存放，供下面的主题路线引用） */
       routes: [
-        { id: 'd1', day: 'Day 1 · 千佛山核心线', nodes: [
-          { time: '08:00', name: '千佛镇早餐', type: '美食', desc: '镇上老字号米粉店，品尝绵阳米粉和四川豆花。' },
-          { time: '09:00', name: '龙神堂 → 三千梯', type: '交通', desc: '乘小黄车（往返 60 元），约 40 分钟。' },
-          { time: '09:40', name: '三千梯徒步登顶', type: '景点', desc: '约 2 小时登顶，穿越云海层。' },
-          { time: '12:00', name: '山顶午餐', type: '补给', desc: '自备路餐。寺庙有矿泉水、泡面出售。' },
-          { time: '13:00', name: '观云海 · 拍大片', type: '景点', desc: '12 点前登顶，云海概率最高。' },
-          { time: '15:00', name: '下山返回', type: '交通', desc: '原路返回，约 2.5 小时到龙神堂。' },
-          { time: '18:00', name: '清水溪晚餐', type: '美食', desc: '冷水鱼、野生羊肚菌炖跑山鸡、农家腊肉。' },
-        ]},
-        { id: 'd2', day: 'Day 2 · 休闲农旅线', nodes: [
-          { time: '09:00', name: '千佛茶园', type: '景点', desc: '云雾茶园采茶体验，拍摄日光垄间光影。' },
-          { time: '11:00', name: '千佛峡漫步', type: '小众', desc: '溪谷轻徒步，人少景美，适合拍照。' },
-          { time: '12:30', name: '尚林山莊午餐', type: '美食', desc: '有机农家菜，土鸡火锅。' },
-          { time: '14:00', name: '红色走廊研学', type: '景点', desc: '2.5 公里红色文化长廊，了解本地历史。' },
-          { time: '16:00', name: '茶坪美廉副食店', type: '补给', desc: '采购当地特产：千佛腊肉、有机野菜、蜂蜜。' },
-          { time: '17:00', name: '返程', type: '交通', desc: '经桑枣镇返回绵阳/成都。' },
-        ]},
-        { id: 'd3', day: 'Day 1 · 漂流避暑线', nodes: [
-          { time: '09:00', name: '千佛山漂流', type: '景点', desc: '山泉水河道漂流，夏季清凉（6–8月 09:00–17:00）。' },
-          { time: '12:00', name: '漂流接待中心午餐', type: '美食', desc: '土鸡、山腊肉、野菜、石磨豆腐。' },
-          { time: '14:30', name: '金溪湖观景', type: '景点', desc: '高山湖泊，适合拍照散步。' },
-          { time: '17:30', name: '入住特色民宿', type: '住宿', desc: '木言别院 / 浅山溪语 / 花间岭·千佛，需提前预订。' },
-        ]},
-        { id: 'd4', day: '红色研学半日线', nodes: [
-          { time: '09:00', name: '老望沟红色走廊', type: '景点', desc: '2.5 公里红色文化长廊，全国红色美丽村庄。' },
-          { time: '11:00', name: '千佛山战役纪念点', type: '景点', desc: '重走长征路，了解千佛山战役历史。' },
-          { time: '12:30', name: '农家午餐', type: '美食', desc: '本地农家菜，可接待团队。' },
-          { time: '14:00', name: '千佛山自然教育中心', type: '景点', desc: '大熊猫国家公园科普窗口。' },
-        ]},
+        {
+          id: 'd1', day: 'Day 1 · 千佛山核心线', nodes: [
+            { time: '08:00', name: '千佛镇早餐', type: '美食', desc: '镇上老字号米粉店，品尝绵阳米粉和四川豆花。' },
+            { time: '09:00', name: '龙神堂 → 三千梯', type: '交通', desc: '乘小黄车（往返 60 元），约 40 分钟。' },
+            { time: '09:40', name: '三千梯徒步登顶', type: '景点', desc: '约 2 小时登顶，穿越云海层。' },
+            { time: '12:00', name: '山顶午餐', type: '补给', desc: '自备路餐。寺庙有矿泉水、泡面出售。' },
+            { time: '13:00', name: '观云海 · 拍大片', type: '景点', desc: '12 点前登顶，云海概率最高。' },
+            { time: '15:00', name: '下山返回', type: '交通', desc: '原路返回，约 2.5 小时到龙神堂。' },
+            { time: '18:00', name: '清水溪晚餐', type: '美食', desc: '冷水鱼、野生羊肚菌炖跑山鸡、农家腊肉。' },
+          ]
+        },
+        {
+          id: 'd2', day: 'Day 2 · 休闲农旅线', nodes: [
+            { time: '09:00', name: '千佛茶园', type: '景点', desc: '云雾茶园采茶体验，拍摄日光垄间光影。' },
+            { time: '11:00', name: '千佛峡漫步', type: '小众', desc: '溪谷轻徒步，人少景美，适合拍照。' },
+            { time: '12:30', name: '尚林山莊午餐', type: '美食', desc: '有机农家菜，土鸡火锅。' },
+            { time: '14:00', name: '红色走廊研学', type: '景点', desc: '2.5 公里红色文化长廊，了解本地历史。' },
+            { time: '16:00', name: '茶坪美廉副食店', type: '补给', desc: '采购当地特产：千佛腊肉、有机野菜、蜂蜜。' },
+            { time: '17:00', name: '返程', type: '交通', desc: '经桑枣镇返回绵阳/成都。' },
+          ]
+        },
+        {
+          id: 'd3', day: 'Day 1 · 漂流避暑线', nodes: [
+            { time: '09:00', name: '千佛山漂流', type: '景点', desc: '山泉水河道漂流，夏季清凉（6–8月 09:00–17:00）。' },
+            { time: '12:00', name: '漂流接待中心午餐', type: '美食', desc: '土鸡、山腊肉、野菜、石磨豆腐。' },
+            { time: '14:30', name: '金溪湖观景', type: '景点', desc: '高山湖泊，适合拍照散步。' },
+            { time: '17:30', name: '入住特色民宿', type: '住宿', desc: '木言别院 / 浅山溪语 / 花间岭·千佛，需提前预订。' },
+          ]
+        },
+        {
+          id: 'd4', day: '红色研学半日线', nodes: [
+            { time: '09:00', name: '老望沟红色走廊', type: '景点', desc: '2.5 公里红色文化长廊，全国红色美丽村庄。' },
+            { time: '11:00', name: '千佛山战役纪念点', type: '景点', desc: '重走长征路，了解千佛山战役历史。' },
+            { time: '12:30', name: '农家午餐', type: '美食', desc: '本地农家菜，可接待团队。' },
+            { time: '14:00', name: '千佛山自然教育中心', type: '景点', desc: '大熊猫国家公园科普窗口。' },
+          ]
+        },
       ],
 
+      /* 推荐路线主题卡片（对应路线页的三张大图） */
       routeThemes: [
-        { id: 't1', title: '千佛山一日精华线', sub: '三千梯登顶 · 云海日出一日圆梦', badge: '1日 · 约12公里 · 难度中上', img: '千佛山日出景观2.jpg', dayIds: ['d1'] },
-        { id: 't2', title: '千佛镇两日度假线', sub: '漂流+民宿+红色走廊 慢享清凉山居', badge: '2日 · 自驾 · 休闲', img: '漂流景观.png', dayIds: ['d3', 'd2'] },
-        { id: 't3', title: '红色研学主题线', sub: '重走长征路 · 千佛山战役红色记忆', badge: '半日-1日 · 步行 · 红色研学', img: '老王沟红色走廊.jpg', dayIds: ['d4'] },
+        {
+          id: 't1', title: '千佛山一日精华线', sub: '三千梯登顶 · 云海日出一日圆梦',
+          badge: '1日 · 约12公里 · 难度中上',
+          img: '千佛山日出景观2.jpg', dayIds: ['d1']
+        },
+        {
+          id: 't2', title: '千佛镇两日度假线', sub: '漂流+民宿+红色走廊 慢享清凉山居',
+          badge: '2日 · 自驾 · 休闲',
+          img: '漂流景观.png', dayIds: ['d3', 'd2']
+        },
+        {
+          id: 't3', title: '红色研学主题线', sub: '重走长征路 · 千佛山战役红色记忆',
+          badge: '半日-1日 · 步行 · 红色研学',
+          img: '老王沟红色走廊.jpg', dayIds: ['d4']
+        },
       ],
     };
 
@@ -1537,7 +2964,10 @@
       document.querySelector(`.tab-btn[data-page="${pageId}"]`).classList.add('active');
       if (scrollTop) window.scrollTo({ top: 0 });
       if (pageId === 'mine') renderMine();
-      if (pageId === 'route') backToRouteList();
+      if (pageId === 'route') backToRouteList();   // 每次进入路线页都先显示卡片列表
+      if (pageId === 'map' && window.MapIntro) {   // 进入第二页播放 3D 旋转预览
+        setTimeout(() => window.MapIntro.open(), 120);
+      }
     }
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1618,6 +3048,9 @@
       }, 4500);
     }
 
+    /* ============================================================
+       四季卡片点击 → 首页季节区块
+       ============================================================ */
     document.querySelectorAll('.season-card').forEach(card => {
       card.addEventListener('click', () => {
         const season = card.dataset.season;
@@ -1689,6 +3122,9 @@
       renderPoiList(chip.dataset.cat);
     });
 
+    /* ============================================================
+       沙盘 → 实景照片
+       ============================================================ */
     function showSpotPhoto(spotId) {
       const s = DATA.spots.find(x => x.id === spotId);
       if (!s) return;
@@ -1734,6 +3170,9 @@
       showSpotPhoto(card.dataset.poiId);
     });
 
+    /* ============================================================
+       事项清单
+       ============================================================ */
     function renderChecklist() {
       const el = document.getElementById('checklist');
       el.innerHTML = DATA.checklist.map(c => {
@@ -1753,6 +3192,9 @@
       item.classList.toggle('checked');
     });
 
+    /* ============================================================
+       Tab 切换
+       ============================================================ */
     document.querySelectorAll('.pill-tab[data-panel]').forEach(tab => {
       tab.addEventListener('click', () => {
         const parent = tab.parentElement;
@@ -1777,6 +3219,9 @@
   `).join('');
     }
 
+    /* ============================================================
+       季节路线 —— 渲染到首页 #season-content
+       ============================================================ */
     function renderSeason(key) {
       const s = DATA.seasons[key];
       const el = document.getElementById('season-content');
@@ -1805,6 +3250,9 @@
   `;
     }
 
+    /* ============================================================
+       推荐路线：卡片列表 → 时间轴详情
+       ============================================================ */
     function renderRoutes() {
       document.getElementById('route-cards').innerHTML = DATA.routeThemes.map(t => `
     <div class="route-card" data-theme="${t.id}">
@@ -1866,6 +3314,9 @@
       window.scrollTo({ top: 0 });
     });
 
+    /* ============================================================
+       ⭐ 收藏按钮（季节路线 / 路线节点）
+       ============================================================ */
     document.addEventListener('click', e => {
       const btn = e.target.closest('[data-fav]');
       if (!btn) return;
@@ -1873,6 +3324,9 @@
       btn.textContent = arr.includes(btn.dataset.fav) ? '⭐' : '☆';
     });
 
+    /* ============================================================
+       我的
+       ============================================================ */
     function renderMine() {
       const homeFavs = Store.get('home_favs', []);
       const mapFavs = Store.get('map_favs', []);
@@ -2001,14 +3455,22 @@
       renderMine();
     });
 
+
     /* ============================================================
        高德实时导航
+       ============================================================
+       ⚠ 使用前请确认：
+       1) key 必须是「Web端(JS API)」类型；
+       2) 2021 年 12 月后申请的 key 还需要「安全密钥」，填入 securityJsCode；
+       3) 在高德控制台给 key 设置域名白名单，避免被他人盗用。
+       4) 每个点位的真实坐标请填到 DATA.spots 的 lnglat 字段（[经度, 纬度]），
+          没填的点位会在运行时用点位名称在 DATA.center 附近搜索。
        ============================================================ */
     const AMAP_CONFIG = {
       key: 'b3ef210b81486f2a82d84de8b6af5f36',
-      securityJsCode: '',
+      securityJsCode: '',        // ← 在这里填你的安全密钥
       city: '绵阳',
-      searchRadius: 40000
+      searchRadius: 40000        // 名称搜索半径（米）
     };
     if (AMAP_CONFIG.securityJsCode) {
       window._AMapSecurityConfig = { securityJsCode: AMAP_CONFIG.securityJsCode };
@@ -2058,6 +3520,7 @@
       }
     }
 
+    /* 目的地坐标：优先用 spot.lnglat，其次本地缓存，最后按名称搜索 */
     function resolveDest(spot) {
       return new Promise(resolve => {
         if (spot.lnglat) return resolve(spot.lnglat);
@@ -2083,6 +3546,7 @@
       });
     }
 
+    /* 浏览器定位(WGS84) → 高德坐标(GCJ02) */
     function toGcj(lng, lat) {
       return new Promise(resolve => {
         AMap.convertFrom([lng, lat], 'gps', (st, r) => {
@@ -2112,6 +3576,7 @@
         const first = !NAV.me;
         placeMe(ll);
         if (first) { planRoute(); return; }
+        // 实时：偏离上次规划点 150m 以上且距上次规划超过 15 秒，则重新规划
         const moved = AMap.GeometryUtil.distance(ll, NAV.lastPlanPos || ll);
         if (moved > 150 && Date.now() - NAV.lastPlanAt > 15000) planRoute();
       }, err => {
@@ -2188,4 +3653,172 @@
       NAV.map.add(NAV.destMarker);
       NAV.map.setCenter(NAV.dest);
 
-      setNavStatus('正在
+      setNavStatus('正在获取你的位置…');
+      startWatch();
+    }
+
+    function closeNav() {
+      stopWatch();
+      if (NAV.router) { try { NAV.router.clear(); } catch (e) { } }
+      $nav('navSheet').classList.remove('open');
+      $nav('navSheet').setAttribute('aria-hidden', 'true');
+    }
+
+    $nav('navClose').addEventListener('click', closeNav);
+    $nav('navMask').addEventListener('click', closeNav);
+    $nav('photoNav').addEventListener('click', () => { if (currentSpotId) openNav(currentSpotId); });
+    $nav('navLocate').addEventListener('click', () => {
+      if (NAV.me && NAV.map) NAV.map.setCenter(NAV.me);
+    });
+    document.querySelectorAll('.nav-mode').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.nav-mode').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        NAV.mode = b.dataset.mode;
+        NAV.lastPlanPos = null;
+        updateAppLink();
+        $nav('navSummary').textContent = '正在规划路线…';
+        planRoute();
+      });
+    });
+
+    /* ============================================================
+       初始化
+       ============================================================ */
+    renderHero();
+    renderSandPins();
+    renderPoiList('all');
+    renderChecklist();
+    renderGuideSteps();
+    renderSeason('spring');
+    renderRoutes();
+
+    /* ============================================================
+       开屏动画
+       ============================================================ */
+    (function () {
+      const splash = document.getElementById('splash-screen');
+      const video = document.getElementById('splash-video');
+      const skip = document.getElementById('splash-skip');
+      if (!splash || !video) return;
+
+      const MIN_SHOW = 800;
+      const MAX_SHOW = 15000;
+      let closed = false;
+      let startTime = Date.now();
+      let maxTimer = null;
+
+      function closeSplash() {
+        if (closed) return;
+        closed = true;
+        clearTimeout(maxTimer);
+        splash.classList.add('hide');
+        setTimeout(() => splash.remove(), 900);
+      }
+
+      video.addEventListener('ended', () => {
+        const wait = Math.max(0, MIN_SHOW - (Date.now() - startTime));
+        setTimeout(closeSplash, wait);
+      });
+      skip.addEventListener('click', closeSplash);
+      video.addEventListener('error', () => {
+        console.warn('[开屏动画] 视频加载失败，已跳过。');
+        closeSplash();
+      });
+
+      maxTimer = setTimeout(closeSplash, MAX_SHOW);
+
+      const tryPlay = video.play();
+      if (tryPlay && typeof tryPlay.catch === 'function') {
+        tryPlay.catch(() => closeSplash());
+      }
+    })();
+
+    /* ============================================================
+       第二页 · 千佛山3D旋转预览开幕
+       ============================================================ */
+    (function () {
+      const wrap = document.getElementById('mapIntro');
+      const video = document.getElementById('mapIntroVideo');
+      const skip = document.getElementById('mapIntroSkip');
+      const countEl = document.getElementById('mapIntroCount');
+      const bar = document.getElementById('mapIntroBar');
+      if (!wrap || !video) return;
+
+      const COUNTDOWN = 10;     // 跳过倒计时（秒）→ 开幕总时长约 10 秒
+      const MAX_SHOW = 20000;  // 最长展示时间，兜底
+      const CLOSE_WAIT = 600;    // 淡出动画时长
+
+      let state = 'idle';        // idle | playing | closing
+      let cdTimer = null, maxTimer = null, guardTimer = null;
+
+      function clearTimers() {
+        clearInterval(cdTimer); clearTimeout(maxTimer); clearTimeout(guardTimer);
+        cdTimer = maxTimer = guardTimer = null;
+      }
+
+      function close() {
+        if (state !== 'playing') return;
+        state = 'closing';
+        clearTimers();
+        wrap.classList.remove('show');
+        wrap.setAttribute('aria-hidden', 'true');
+        try { video.pause(); } catch (e) { }
+        setTimeout(() => {
+          try { video.currentTime = 0; } catch (e) { }
+          bar.style.width = '0%';
+          countEl.textContent = COUNTDOWN;
+          state = 'idle';
+        }, CLOSE_WAIT);
+      }
+
+      function open() {
+        if (state !== 'idle') return;
+        state = 'playing';
+
+        bar.style.width = '0%';
+        countEl.textContent = COUNTDOWN;
+        wrap.classList.add('show');
+        wrap.setAttribute('aria-hidden', 'false');
+
+        // 跳过倒计时：10 → 0，归零自动关闭
+        let cd = COUNTDOWN;
+        cdTimer = setInterval(() => {
+          cd -= 1;
+          if (cd <= 0) { clearInterval(cdTimer); cdTimer = null; close(); return; }
+          countEl.textContent = cd;
+        }, 1000);
+
+        // 视频加载不出来 → 直接跳过，不卡住用户
+        guardTimer = setTimeout(() => { if (video.readyState < 2) close(); }, 3500);
+
+        try { video.currentTime = 0; } catch (e) { }
+        const p = video.play();
+        if (p && typeof p.catch === 'function') p.catch(() => close());
+
+        maxTimer = setTimeout(close, MAX_SHOW);
+      }
+
+      video.addEventListener('playing', () => {
+        clearTimeout(guardTimer); guardTimer = null;
+      });
+
+      // 进度条：视频加了 loop，播完一轮会回到 0 重新走，进度条也跟着循环
+      video.addEventListener('timeupdate', () => {
+        if (video.duration && isFinite(video.duration)) {
+          bar.style.width = (video.currentTime / video.duration * 100) + '%';
+        }
+      });
+
+      // 注意：视频加了 loop 后不会触发 ended，关闭完全交给 10 秒倒计时
+
+      video.addEventListener('error', close);
+      skip.addEventListener('click', close);
+
+      // 暴露给页面切换逻辑
+      window.MapIntro = { open, close };
+    })();
+  </script>
+</body>
+
+</html>

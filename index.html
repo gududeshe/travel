@@ -1618,6 +1618,7 @@
       transform: translateY(-1px) scale(1.08);
     }
 
+    /* ==================== 开屏动画（修复点击穿透） ==================== */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -1628,6 +1629,9 @@
       justify-content: center;
       opacity: 1;
       transition: opacity 0.8s ease, visibility 0.8s ease;
+      cursor: pointer;
+      /* ✅ 整层可点击 */
+      pointer-events: auto;
     }
 
     #splash-screen.hide {
@@ -1645,6 +1649,8 @@
       display: block;
       border-radius: 12px;
       box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+      /* ✅ 让点击穿透到遮罩层，不阻塞按钮 */
+      pointer-events: none;
     }
 
     @media (max-width: 640px) {
@@ -1668,7 +1674,10 @@
       font-size: 12px;
       letter-spacing: 0.5px;
       transition: all 0.25s;
+      /* ✅ 明确的层级，确保可点击 */
       z-index: 10000;
+      pointer-events: auto;
+      cursor: pointer;
     }
 
     #splash-skip:hover {
@@ -1914,7 +1923,7 @@
   <!-- ==================== 开屏动画 ==================== -->
   <div id="splash-screen">
     <video id="splash-video" src="开屏动画.mp4" autoplay muted playsinline preload="auto"></video>
-    <button id="splash-skip">跳过 ›</button>
+    <button id="splash-skip" type="button">跳过 ›</button>
   </div>
 
   <div class="app">
@@ -3346,4 +3355,50 @@
       return new Promise(resolve => {
         if (spot.lnglat) return resolve(spot.lnglat);
         const cached = Store.get('geo_' + spot.id);
-        if (cached
+        if (cached) return resolve(cached);
+
+        const ps = new AMap.PlaceSearch({ city: AMAP_CONFIG.city, pageSize: 1 });
+        const done = (st, r) => {
+          const poi = st === 'complete' && r.poiList && r.poiList.pois && r.poiList.pois[0];
+          if (poi && poi.location) {
+            const ll = [poi.location.lng, poi.location.lat];
+            Store.set('geo_' + spot.id, ll);
+            resolve(ll);
+            return true;
+          }
+          return false;
+        };
+        const kw = spot.name.replace(/[（(].*?[）)]/g, '');
+        ps.searchNearBy(kw, [DATA.center.lng, DATA.center.lat], AMAP_CONFIG.searchRadius, (st, r) => {
+          if (done(st, r)) return;
+          ps.search('千佛山 ' + kw, (st2, r2) => { if (!done(st2, r2)) resolve(null); });
+        });
+      });
+    }
+
+    function toGcj(lng, lat) {
+      return new Promise(resolve => {
+        AMap.convertFrom([lng, lat], 'gps', (st, r) => {
+          if (st === 'complete' && r.locations && r.locations[0]) {
+            resolve([r.locations[0].lng, r.locations[0].lat]);
+          } else resolve([lng, lat]);
+        });
+      });
+    }
+
+    function placeMe(ll) {
+      NAV.me = ll;
+      if (!NAV.map) return;
+      if (!NAV.meMarker) {
+        NAV.meMarker = new AMap.Marker({
+          position: ll, offset: new AMap.Pixel(-11, -11), zIndex: 200,
+          content: '<div class="nav-marker-me"></div>'
+        });
+        NAV.map.add(NAV.meMarker);
+      } else NAV.meMarker.setPosition(ll);
+    }
+
+    function startWatch() {
+      if (NAV.watchId != null || !navigator.geolocation) return;
+      NAV.watchId = navigator.geolocation.watchPosition(async pos => {
+        const ll = await toG

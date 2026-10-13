@@ -1630,7 +1630,6 @@
       opacity: 1;
       transition: opacity 0.8s ease, visibility 0.8s ease;
       cursor: pointer;
-      /* ✅ 整层可点击 */
       pointer-events: auto;
     }
 
@@ -1649,7 +1648,7 @@
       display: block;
       border-radius: 12px;
       box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
-      /* ✅ 让点击穿透到遮罩层，不阻塞按钮 */
+      /* ✅ 关键修复：让视频不吃点击事件，点击穿透到遮罩层 */
       pointer-events: none;
     }
 
@@ -1674,8 +1673,7 @@
       font-size: 12px;
       letter-spacing: 0.5px;
       transition: all 0.25s;
-      /* ✅ 明确的层级，确保可点击 */
-      z-index: 10000;
+      z-index: 10001;
       pointer-events: auto;
       cursor: pointer;
     }
@@ -1920,10 +1918,14 @@
 
 <body>
 
-  <!-- ==================== 开屏动画 ==================== -->
-  <div id="splash-screen">
+  <!-- ==================== 开屏动画 ====================
+       关键：给整个遮罩挂行内 onclick，不依赖 JS 绑定，100% 生效 -->
+  <div id="splash-screen"
+    onclick="this.classList.add('hide');var s=this;setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);},900);">
     <video id="splash-video" src="开屏动画.mp4" autoplay muted playsinline preload="auto"></video>
-    <button id="splash-skip" type="button">跳过 ›</button>
+    <button id="splash-skip" type="button"
+      onclick="event.stopPropagation();var s=document.getElementById('splash-screen');if(s){s.classList.add('hide');setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s);},900);}">跳过
+      ›</button>
   </div>
 
   <div class="app">
@@ -3401,4 +3403,25 @@
     function startWatch() {
       if (NAV.watchId != null || !navigator.geolocation) return;
       NAV.watchId = navigator.geolocation.watchPosition(async pos => {
-        const ll = await toG
+        const ll = await toGcj(pos.coords.longitude, pos.coords.latitude);
+        const first = !NAV.me;
+        placeMe(ll);
+        if (first) { planRoute(); return; }
+        const moved = AMap.GeometryUtil.distance(ll, NAV.lastPlanPos || ll);
+        if (moved > 150 && Date.now() - NAV.lastPlanAt > 15000) planRoute();
+      }, err => {
+        setNavStatus(err.code === 1 ? '未获得定位权限，可在高德 App 中直接导航' : '定位失败，可在高德 App 中直接导航');
+        $nav('navSummary').textContent = '无法获取当前位置';
+      }, { enableHighAccuracy: true, maximumAge: 3000, timeout: 15000 });
+    }
+
+    function stopWatch() {
+      if (NAV.watchId != null && navigator.geolocation) navigator.geolocation.clearWatch(NAV.watchId);
+      NAV.watchId = null;
+    }
+
+    function planRoute() {
+      if (!NAV.map || !NAV.me || !NAV.dest || NAV.planning) return;
+      NAV.planning = true;
+      if (NAV.router) { try { NAV.router.clear(); } catch (e) { } }
+      const Ctor = NAV.mode === 'walking' ? AMap.Walking : AMap.Driving;

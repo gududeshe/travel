@@ -1,0 +1,3615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>云上千佛 · 千佛乡旅</title>
+  <style>
+    :root {
+      --primary: #5ba8ae;
+      --primary-dark: #3d8a90;
+      --primary-light: #e6f4f5;
+      --bg: #eef4f5;
+      --white: #ffffff;
+      --text: #1a2b2d;
+      --text-mid: #5a6c6e;
+      --text-light: #95a5a7;
+      --border: #e2ebec;
+      --earth: #c47b4d;
+      --earth-light: #fbf0e8;
+      --radius: 16px;
+      --shadow-card: 0 1px 4px rgba(26, 43, 45, 0.04);
+      --header-h: 64px;
+      --tabbar-h: 64px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+      background: #dde6e8;
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg);
+      min-height: 100vh;
+      min-height: 100dvh;
+      position: relative;
+      padding-top: var(--header-h);
+      padding-bottom: var(--tabbar-h);
+      box-shadow: 0 0 40px rgba(26, 43, 45, 0.08);
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: var(--header-h);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7fc4c8, #4d99a0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+    }
+
+    .logo-text {
+      line-height: 1.1;
+    }
+
+    .logo-text .cn {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 1px;
+      display: block;
+    }
+
+    .logo-text .en {
+      font-size: 8px;
+      color: var(--text-light);
+      letter-spacing: 1.4px;
+      font-weight: 600;
+      display: block;
+    }
+
+    .search-box {
+      flex: 1;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: var(--shadow-card);
+      min-width: 0;
+    }
+
+    .search-box svg {
+      flex-shrink: 0;
+      color: var(--text-light);
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 13px;
+      flex: 1;
+      min-width: 0;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    .search-box input::placeholder {
+      color: #b8c4c6;
+    }
+
+    .page {
+      display: none;
+      padding: 4px 14px 20px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ==================== 首页 ==================== */
+    .hero-carousel {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 20px rgba(26, 43, 45, 0.08);
+      background: #1a2b2d;
+    }
+
+    .hero-track {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+      pointer-events: none;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-slide .hero-content {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 24px 18px 26px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+      color: #fff;
+    }
+
+    .hero-content h1 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content p {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .hero-pills span {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 10.5px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .hero-dots {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      display: flex;
+      gap: 5px;
+      z-index: 3;
+    }
+
+    .hero-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .hero-dot.active {
+      background: #fff;
+      width: 18px;
+      border-radius: 3px;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .quick-btn {
+      background: var(--white);
+      border: none;
+      border-radius: 16px;
+      padding: 12px 4px 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      transition: transform 0.15s;
+      box-shadow: var(--shadow-card);
+    }
+
+    .quick-btn:active {
+      transform: scale(0.95);
+    }
+
+    .quick-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e8f5f6, #d9eff1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-dark);
+    }
+
+    .quick-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .quick-btn span {
+      font-size: 11px;
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 0 2px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.3px;
+    }
+
+    .section-title svg {
+      color: var(--primary);
+    }
+
+    .section-more {
+      font-size: 12px;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      background: none;
+      border: none;
+      padding: 4px 0;
+    }
+
+    .guide-preview-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .guide-preview-card:active {
+      transform: scale(0.98);
+    }
+
+    .guide-preview-img {
+      width: 92px;
+      height: 92px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #d4e4e6;
+    }
+
+    .guide-preview-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .guide-preview-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .guide-preview-info h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .guide-preview-info p {
+      font-size: 11px;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    .guide-tag {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 10.5px;
+      padding: 3px 12px;
+      border-radius: 12px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .stay-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .stay-card:active {
+      transform: scale(0.98);
+    }
+
+    .stay-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .stay-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 60px 16px 16px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.15) 60%, transparent);
+      color: #fff;
+    }
+
+    .stay-overlay h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .stay-overlay p {
+      font-size: 11.5px;
+      opacity: 0.9;
+      letter-spacing: 0.3px;
+    }
+
+    .stay-icons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .stay-icon-item {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 13px 4px 11px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .stay-icon-item:active {
+      transform: scale(0.96);
+    }
+
+    .stay-icon-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f0f7f8;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-dark);
+    }
+
+    .stay-icon-circle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .stay-icon-name {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      letter-spacing: 0.2px;
+    }
+
+    .stay-icon-desc {
+      font-size: 9.5px;
+      color: var(--text-light);
+      line-height: 1.3;
+      padding: 0 2px;
+    }
+
+    .season-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .season-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .season-card:active {
+      transform: scale(0.97);
+    }
+
+    .season-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .season-month {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 10.5px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      letter-spacing: 0.2px;
+    }
+
+    .season-name {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 32px 10px 10px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.1) 70%, transparent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      line-height: 1.35;
+    }
+
+    /* ==================== 第二页 · 沙盘 + 实景 ==================== */
+    .map-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #dceef0 0%, #c8e0e2 100%);
+      box-shadow: 0 4px 20px rgba(26, 43, 45, 0.06);
+      margin-bottom: 14px;
+    }
+
+    .sandtable {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 2;
+    }
+
+    .sandtable.hide {
+      opacity: 0;
+      transform: scale(1.4);
+      pointer-events: none;
+    }
+
+    .sand-hint {
+      position: absolute;
+      top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 14px;
+      font-size: 10.5px;
+      color: var(--text-mid);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      z-index: 3;
+    }
+
+    .sand-hint::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid var(--primary);
+    }
+
+    .sand-hint-l {
+      left: 12px;
+    }
+
+    .sand-hint-r {
+      right: 12px;
+    }
+
+    .sand-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sand-pins {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .sand-pin {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-dark);
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s;
+      animation: pinPulse 2.4s ease-in-out infinite;
+      z-index: 4;
+    }
+
+    .sand-pin:nth-child(2n) {
+      animation-delay: 0.6s;
+    }
+
+    .sand-pin:nth-child(3n) {
+      animation-delay: 1.2s;
+    }
+
+    .sand-pin:active {
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+
+    .sand-pin svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    @keyframes pinPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(91, 168, 174, 0.55);
+      }
+
+      50% {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 9px rgba(91, 168, 174, 0);
+      }
+    }
+
+    .spot-photo {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.25);
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+      background: #0b1214;
+    }
+
+    .spot-photo.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      z-index: 5;
+    }
+
+    .spot-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .spot-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom,
+          rgba(0, 0, 0, 0.42) 0%,
+          rgba(0, 0, 0, 0) 28%,
+          rgba(0, 0, 0, 0) 45%,
+          rgba(0, 0, 0, 0.78) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .photo-back {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: none;
+      padding: 7px 14px;
+      border-radius: 16px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 6;
+    }
+
+    .photo-back svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .photo-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 60px 18px 16px;
+      color: #fff;
+      z-index: 3;
+      animation: photoInfoIn 0.6s ease 0.3s both;
+    }
+
+    @keyframes photoInfoIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .photo-cat {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.4px;
+      margin-bottom: 8px;
+    }
+
+    .photo-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+      line-height: 1.3;
+    }
+
+    .photo-desc {
+      font-size: 11.5px;
+      opacity: 0.9;
+      line-height: 1.55;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .photo-meta {
+      font-size: 10.5px;
+      opacity: 0.75;
+      letter-spacing: 0.3px;
+    }
+
+    .cat-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 8px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+
+    .cat-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-mid);
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .cat-chip svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .cat-chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+    }
+
+    .poi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .poi-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 13px 14px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .poi-card:active {
+      transform: scale(0.98);
+    }
+
+    .poi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .poi-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .poi-icon.cat-spot {
+      background: #e8f5f6;
+      color: #3d8a90;
+    }
+
+    .poi-icon.cat-stay {
+      background: #e8eef5;
+      color: #4a6fa8;
+    }
+
+    .poi-icon.cat-food {
+      background: #fdf0e3;
+      color: #c47b4d;
+    }
+
+    .poi-icon.cat-supply {
+      background: #e6f3ea;
+      color: #4a8b5a;
+    }
+
+    .poi-icon.cat-red {
+      background: #fbe9e9;
+      color: #c94a4a;
+    }
+
+    .poi-icon.cat-village {
+      background: #efe6f5;
+      color: #7a5a9c;
+    }
+
+    .poi-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .poi-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .poi-desc {
+      font-size: 11px;
+      color: var(--text-light);
+      line-height: 1.4;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .poi-arrow {
+      flex-shrink: 0;
+      color: #c8d4d6;
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    /* ==================== 攻略页 ==================== */
+    .tab-scroll {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+
+    .tab-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-tab {
+      padding: 7px 18px;
+      border-radius: 18px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-size: 12.5px;
+      color: var(--text-mid);
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+
+    .pill-tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(91, 168, 174, 0.3);
+    }
+
+    .season-panel {
+      display: none;
+    }
+
+    .season-panel.active {
+      display: block;
+    }
+
+    .guide-cover {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: center 40%;
+      border-radius: 12px;
+      display: block;
+      margin-bottom: 12px;
+      background: #d4e4e6;
+    }
+
+    .step-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .step-list {
+      counter-reset: step;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px dashed var(--border);
+      align-items: flex-start;
+    }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-item:first-child {
+      padding-top: 4px;
+    }
+
+    .step-num {
+      counter-increment: step;
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .step-num::before {
+      content: counter(step);
+    }
+
+    .step-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-content h4 {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    .step-content p {
+      font-size: 11.5px;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    .alert-bar {
+      background: #fff8e6;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 11.5px;
+      color: #8a6d2a;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      line-height: 1.6;
+    }
+
+    .alert-bar .alert-icon {
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .sidebar-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .sidebar-card h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sidebar-card h4 svg {
+      color: var(--primary);
+    }
+
+    .info-row {
+      font-size: 12px;
+      color: var(--text-mid);
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      cursor: pointer;
+      font-size: 12.5px;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .check-item:hover {
+      background: var(--primary-light);
+    }
+
+    .check-item.checked {
+      opacity: 0.45;
+      text-decoration: line-through;
+    }
+
+    .check-box {
+      width: 17px;
+      height: 17px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      border: 1.8px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      transition: all 0.2s;
+      font-size: 10px;
+      color: transparent;
+      background: var(--white);
+    }
+
+    .check-item.checked .check-box {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* ==================== 路线页 ==================== */
+    .page-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 2px 4px;
+    }
+
+    .page-head-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-dark);
+    }
+
+    .page-head h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.5px;
+    }
+
+    .page-sub {
+      font-size: 12.5px;
+      color: var(--text-light);
+      margin: 0 2px 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .route-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 16 / 6.4;
+      margin-bottom: 12px;
+      cursor: pointer;
+      background: #1a2b2d;
+      box-shadow: 0 4px 18px rgba(26, 43, 45, 0.10);
+      transition: transform 0.15s;
+    }
+
+    .route-card:active {
+      transform: scale(0.98);
+    }
+
+    .route-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .route-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.1) 55%, transparent 100%);
+    }
+
+    .route-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--primary-dark);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .route-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 0 16px 12px;
+      color: #fff;
+    }
+
+    .route-info h3 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .route-info p {
+      font-size: 11.5px;
+      opacity: 0.92;
+      letter-spacing: 0.3px;
+    }
+
+    .route-back {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin: 2px 0 8px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .route-detail-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 6px 2px 2px;
+    }
+
+    .route-detail-sub {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: 0 2px 8px;
+    }
+
+    .day-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 18px 0 12px 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .day-title::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--primary);
+    }
+
+    .timeline {
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary), #c8e4e6);
+      border-radius: 1px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 10px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 13px 14px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -21px;
+      top: 18px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2.5px solid var(--bg);
+      box-shadow: 0 0 0 1.5px var(--primary);
+    }
+
+    .timeline-item h4 {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 3px;
+      padding-right: 32px;
+    }
+
+    .timeline-item p {
+      font-size: 11.5px;
+      color: var(--text-light);
+      line-height: 1.55;
+    }
+
+    .timeline-item .tl-tags {
+      display: flex;
+      gap: 5px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tl-tag {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+
+    .fav-mini {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .fav-mini:active {
+      transform: scale(0.9);
+    }
+
+    /* ==================== 我的 ==================== */
+    .profile-header {
+      background: linear-gradient(135deg, #6bb8be 0%, #4d99a0 100%);
+      border-radius: 20px;
+      padding: 24px 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 20px rgba(91, 168, 174, 0.25);
+    }
+
+    .profile-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .profile-info h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .profile-info p {
+      font-size: 11.5px;
+      opacity: 0.9;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      color: var(--text-light);
+      margin-top: 3px;
+    }
+
+    .mine-section {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .mine-section h3 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .count-badge {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 10.5px;
+      padding: 1px 8px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .mine-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mine-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 11px;
+      border-radius: 10px;
+      background: #f6fafb;
+      gap: 8px;
+    }
+
+    .mine-item-title {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mine-item-desc {
+      font-size: 10.5px;
+      color: var(--text-light);
+      margin-top: 1px;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #c94a4a;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .remove-btn:hover {
+      background: #ffeaea;
+    }
+
+    .empty-hint {
+      text-align: center;
+      padding: 16px;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+
+    .danger-btn {
+      width: 100%;
+      margin-top: 6px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      color: #a04a4a;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .danger-btn:hover {
+      background: #fff5f5;
+      border-color: #e5b5b5;
+    }
+
+    /* ==================== 底部导航 ==================== */
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: var(--tabbar-h);
+      background: var(--white);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid var(--border);
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      box-shadow: 0 -2px 12px rgba(26, 43, 45, 0.04);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: var(--text-light);
+      transition: color 0.2s;
+      padding: 6px 0 2px;
+    }
+
+    .tab-btn svg {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s;
+    }
+
+    .tab-btn span {
+      font-size: 10px;
+      letter-spacing: 0.3px;
+      font-weight: 500;
+    }
+
+    .tab-btn.active {
+      color: var(--primary-dark);
+    }
+
+    .tab-btn.active svg {
+      transform: translateY(-1px) scale(1.08);
+    }
+
+    /* ==================== 开屏动画 ==================== */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at center, #7fb3b8 0%, #5f9aa0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #splash-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    #splash-video {
+      width: 42vw;
+      max-width: 320px;
+      min-width: 220px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    @media (max-width: 640px) {
+      #splash-video {
+        width: 70vw;
+        max-width: none;
+      }
+    }
+
+    #splash-skip {
+      position: absolute;
+      right: 20px;
+      bottom: 24px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.95);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      transition: all 0.25s;
+      z-index: 10000;
+    }
+
+    #splash-skip:hover {
+      background: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+
+    /* ==================== 实时导航 ==================== */
+    .photo-nav {
+      margin-top: 10px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .poi-nav {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .poi-nav svg {
+      width: 17px;
+      height: 17px;
+      pointer-events: none;
+    }
+
+    .nav-sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      visibility: hidden;
+    }
+
+    .nav-sheet.open {
+      visibility: visible;
+    }
+
+    .nav-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 20, 22, 0.5);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .nav-sheet.open .nav-mask {
+      opacity: 1;
+    }
+
+    .nav-panel {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      max-height: 92vh;
+      overflow-y: auto;
+      background: var(--bg);
+      border-radius: 22px 22px 0 0;
+      padding: 14px 14px calc(16px + env(safe-area-inset-bottom, 0px));
+      transform: translate(-50%, 100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-sheet.open .nav-panel {
+      transform: translate(-50%, 0);
+    }
+
+    .nav-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .nav-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-status {
+      font-size: 11.5px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    .nav-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: var(--white);
+      color: var(--text-mid);
+      font-size: 13px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-card);
+    }
+
+    .nav-map-wrap {
+      position: relative;
+      height: 260px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #dceef0;
+      margin-bottom: 10px;
+    }
+
+    #navMap {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav-locate {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 5;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--white);
+      color: var(--primary-dark);
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-modes {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .nav-mode {
+      flex: 1;
+      padding: 8px 0;
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--text-mid);
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+
+    .nav-mode.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .nav-summary {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: var(--text-mid);
+      margin-bottom: 10px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .nav-summary b {
+      font-size: 16px;
+      color: var(--primary-dark);
+    }
+
+    .nav-steps {
+      max-height: 150px;
+      overflow-y: auto;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 4px 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .nav-steps:empty {
+      display: none;
+    }
+
+    .nav-step {
+      display: flex;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 11.5px;
+      color: var(--text-mid);
+      border-bottom: 1px dashed var(--border);
+      line-height: 1.5;
+    }
+
+    .nav-step:last-child {
+      border-bottom: none;
+    }
+
+    .nav-step i {
+      font-style: normal;
+      color: var(--primary-dark);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .nav-app-btn {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, #6bb8be, #4d99a0);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      box-shadow: 0 4px 14px rgba(91, 168, 174, 0.3);
+    }
+
+    .nav-marker-me {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2f80ed;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 6px rgba(47, 128, 237, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==================== 开屏动画 ==================== -->
+  <div id="splash-screen">
+    <video id="splash-video" src="assets/开屏动画.mp4" autoplay muted playsinline preload="auto"></video>
+    <button id="splash-skip">跳过 ›</button>
+  </div>
+
+  <div class="app">
+
+    <!-- ==================== 顶部栏 ==================== -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 20l6-12 5 8 3-4 4 8z" />
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="cn">云上千佛</span>
+          <span class="en">YUNSHANG QIANFO</span>
+        </div>
+      </div>
+      <div class="search-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+          stroke-linecap="round">
+          <circle cx="11" cy="11" r="7" />
+          <path d="M21 21l-4.3-4.3" />
+        </svg>
+        <input type="text" id="searchInput" placeholder="搜景点、民宿、路线、攻略">
+      </div>
+    </header>
+
+    <!-- ==================== 首页 ==================== -->
+    <div class="page active" id="page-home">
+      <div class="hero-carousel" id="heroCarousel">
+        <div class="hero-track" id="heroTrack"></div>
+        <div class="hero-dots" id="heroDots"></div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-btn" data-jump="map">
+          <div class="quick-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="7" y="17" width="34" height="22" rx="3.5" />
+              <path d="M7 24 Q16 28 24 24 T41 24" />
+              <path d="M7 33 Q16 29 24 33 T41 33" />
+              <path d="M24 5 C18.5 5 14 9.5 14 15 C14 22 24 30 24 30 C24 30 34 22 34 15 C34 9.5 29.5 5 24 5 Z" />
+              <circle cx="24" cy="15" r="3.4" />
+            </svg>
+          </div>
+          <span>乡旅地图</span>
+        </button>
+        <button class="quick-btn" data-jump="guide">
+          <div class="quick-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M9 22 L15 13 L21 20 L27 11 L39 22" />
+              <path d="M7 22 Q16 27 24 25 Q32 27 41 22 L41 37 Q32 42 24 40 Q16 42 7 37 Z" />
+              <path d="M24 25 L24 40" />
+              <path d="M29 31 Q33 33 37 31" />
+            </svg>
+          </div>
+          <span>登山攻略</span>
+        </button>
+        <button class="quick-btn" data-jump="home-season">
+          <div class="quick-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M24 4 L41 13.5 L41 31.5 L24 41 L7 31.5 L7 13.5 Z" />
+              <path d="M24 35 L24 16" />
+              <path d="M24 21 L28 19 L24 16.5 L20 19 Z" />
+              <path d="M24 27 C19 22 13 24 11.5 32 C17 34 22 32 24 27 Z" />
+              <path d="M24 27 C29 22 35 24 36.5 32 C31 34 26 32 24 27 Z" />
+            </svg>
+          </div>
+          <span>季节玩法</span>
+        </button>
+        <button class="quick-btn" data-jump="route">
+          <div class="quick-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M6 40 L18 30 L26 34 L42 12" />
+              <path d="M32 12 L42 12 L42 22" />
+            </svg>
+          </div>
+          <span>推荐路线</span>
+        </button>
+      </div>
+
+      <!-- 千佛山登山攻略 -->
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 20l6-14 5 9 3-4 4 9z" />
+          </svg>
+          千佛山登山攻略
+        </div>
+        <button class="section-more" data-jump="guide">查看详情 ›</button>
+      </div>
+      <div class="guide-preview-card" data-jump="guide">
+        <div class="guide-preview-img">
+          <img src="assets/hero/雾凇登山道.jpg" alt="三千梯" loading="lazy"
+            onerror="this.parentElement.style.background='linear-gradient(135deg,#a8d8dc,#7fb3b8)';this.style.display='none'">
+        </div>
+        <div class="guide-preview-info">
+          <h3>三千梯 · 云海日出 · 详细路线</h3>
+          <p>全程约12公里往返 · 爬升约1100米 · 难度中等偏上</p>
+          <span class="guide-tag">达人游记</span>
+        </div>
+      </div>
+
+      <!-- 特色住宿 -->
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M3 12h18M12 3v18" />
+          </svg>
+          特色住宿
+        </div>
+        <button class="section-more" data-jump="map">在地图上查看 ›</button>
+      </div>
+      <div class="stay-card" data-jump="map">
+        <img src="assets/hero/万福山庄民宿大门.png" alt="万福山庄" loading="lazy"
+          onerror="this.parentElement.style.background='linear-gradient(135deg,#3a2820,#6b4a35)';this.style.display='none'">
+        <div class="stay-overlay">
+          <h3>万福山庄</h3>
+          <p>餐饮 · 住宿 · 停车 · 棋牌 · 实拍直供</p>
+        </div>
+      </div>
+      <div class="stay-icons">
+        <div class="stay-icon-item" data-jump="map">
+          <div class="stay-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1V11z" />
+            </svg>
+          </div>
+          <div class="stay-icon-name">木言别院</div>
+          <div class="stay-icon-desc">独门独院 · 森林康养</div>
+        </div>
+        <div class="stay-icon-item" data-jump="map">
+          <div class="stay-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M5 12h14" />
+            </svg>
+          </div>
+          <div class="stay-icon-name">三生·三和</div>
+          <div class="stay-icon-desc">禅意山野小院</div>
+        </div>
+        <div class="stay-icon-item" data-jump="map">
+          <div class="stay-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M20 4C10 4 4 10 4 20c10 0 16-6 16-16z" />
+              <path d="M20 4L4 20" />
+            </svg>
+          </div>
+          <div class="stay-icon-name">浅山溪语</div>
+          <div class="stay-icon-desc">漂流起点 · 溪边玩水</div>
+        </div>
+        <div class="stay-icon-item" data-jump="map">
+          <div class="stay-icon-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 3l9 5v8l-9 5-9-5V8z" />
+            </svg>
+          </div>
+          <div class="stay-icon-name">花间岭·千佛</div>
+          <div class="stay-icon-desc">花间堂品牌</div>
+        </div>
+      </div>
+
+      <!-- 季节主题路线 -->
+      <div class="section-header" id="season-section">
+        <div class="section-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l9 5v8l-9 5-9-5V8z" />
+          </svg>
+          季节主题路线
+        </div>
+        <button class="section-more" id="seasonMoreBtn">全部路线 ›</button>
+      </div>
+      <div class="tab-scroll" id="seasonTabs">
+        <button class="pill-tab active" data-panel="spring">🌸 春 · 踏青</button>
+        <button class="pill-tab" data-panel="summer">☀️ 夏 · 避暑</button>
+        <button class="pill-tab" data-panel="autumn">🍁 秋 · 登山</button>
+        <button class="pill-tab" data-panel="winter">❄️ 冬 · 赏雪</button>
+      </div>
+      <div id="season-content"></div>
+
+      <!-- 四季图片卡 -->
+      <div class="section-header" style="margin-top:22px;">
+        <div class="section-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l9 5v8l-9 5-9-5V8z" />
+          </svg>
+          四季推荐
+        </div>
+      </div>
+      <div class="season-cards">
+        <div class="season-card" data-season="spring">
+          <img src="assets/hero/千佛山秋季美景2.jpg" alt="春游野餐踏青路线" loading="lazy"
+            onerror="this.style.background='linear-gradient(135deg,#f8c6d0,#7cb342)';this.style.display='none'">
+          <span class="season-month">3-5月</span>
+          <div class="season-name">春游野餐踏青路线</div>
+        </div>
+        <div class="season-card" data-season="summer">
+          <img src="assets/hero/漂流景观.png" alt="夏季避暑漂流露营" loading="lazy"
+            onerror="this.style.background='linear-gradient(135deg,#a8d8dc,#42a5f5)';this.style.display='none'">
+          <span class="season-month">6-8月</span>
+          <div class="season-name">夏季避暑漂流露营指南</div>
+        </div>
+        <div class="season-card" data-season="autumn">
+          <img src="assets/hero/秋季红叶美景.png" alt="秋季登山野炊" loading="lazy"
+            onerror="this.style.background='linear-gradient(135deg,#ef6c00,#c47b4d)';this.style.display='none'">
+          <span class="season-month">9-11月</span>
+          <div class="season-name">秋季登山野炊路线</div>
+        </div>
+        <div class="season-card" data-season="winter">
+          <img src="assets/hero/千佛山山顶雪景1.jpg" alt="冬季运动赏雪" loading="lazy"
+            onerror="this.style.background='linear-gradient(135deg,#c8d8e8,#5c6bc0)';this.style.display='none'">
+          <span class="season-month">12-2月</span>
+          <div class="season-name">冬季运动赏雪推荐</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 第二页 · 沙盘 + 实景 ==================== -->
+    <div class="page" id="page-map">
+
+      <div class="map-stage">
+        <div class="sandtable" id="sandtable">
+          <div class="sand-hint sand-hint-l">千佛山微缩沙盘</div>
+          <div class="sand-hint sand-hint-r">轻触圆点 · 远程参观</div>
+          <img class="sand-image" src="assets/hero/sandtable.png" alt="千佛山微缩沙盘"
+            onerror="this.style.background='linear-gradient(180deg,#c8e0e2,#a0c0c4)';this.style.opacity='0'">
+          <div class="sand-pins" id="sandPins"></div>
+        </div>
+
+        <div class="spot-photo" id="spotPhoto">
+          <img id="spotPhotoImg" src="" alt="">
+          <button class="photo-back" id="photoBack">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            返回沙盘
+          </button>
+          <div class="photo-info">
+            <span class="photo-cat" id="photoCat"></span>
+            <div class="photo-title" id="photoTitle"></div>
+            <div class="photo-desc" id="photoDesc"></div>
+            <div class="photo-meta" id="photoMeta"></div>
+            <button class="photo-nav" id="photoNav">🧭 导航到这里</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat-scroll" id="catScroll">
+        <button class="cat-chip active" data-cat="all">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3 12h18M12 3v18" />
+          </svg>
+          全部
+        </button>
+        <button class="cat-chip" data-cat="spot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 20l6-14 5 9 3-4 4 9z" />
+          </svg>
+          景点
+        </button>
+        <button class="cat-chip" data-cat="stay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1V11z" />
+          </svg>
+          民宿
+        </button>
+        <button class="cat-chip" data-cat="supply">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 3h18v4H3zM5 7v14h14V7" />
+            <path d="M9 12h6" />
+          </svg>
+          补给/接待
+        </button>
+        <button class="cat-chip" data-cat="red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M4 3v18M4 4l12 2-3 4 3 4-12 2" />
+          </svg>
+          红色文旅
+        </button>
+        <button class="cat-chip" data-cat="village">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 21V9l6-4 6 4v12M9 21v-6h3v6M15 21V12l6-3v12" />
+          </svg>
+          村/场镇
+        </button>
+        <button class="cat-chip" data-cat="food">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 11h18M5 11a7 7 0 0114 0M8 20h8" />
+          </svg>
+          餐饮
+        </button>
+      </div>
+
+      <div class="poi-list" id="poiList"></div>
+    </div>
+
+    <!-- ==================== 攻略页 ==================== -->
+    <div class="page" id="page-guide">
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 20l6-14 5 9 3-4 4 9z" />
+          </svg>
+          本地达人游记
+        </div>
+      </div>
+      <div class="tab-scroll">
+        <button class="pill-tab active" data-panel="guide-hiking">登山攻略</button>
+        <button class="pill-tab" data-panel="guide-camping">野营指南</button>
+      </div>
+      <div class="season-panel active" id="guide-hiking">
+        <div class="step-card">
+          <img class="guide-cover" src="assets/hero/雾凇登山道.jpg" alt="千佛山经典登山路线" loading="lazy"
+            onerror="this.style.display='none'">
+          <h3 style="font-size:13.5px;margin-bottom:8px;color:var(--text);">千佛山经典登山路线</h3>
+          <p style="font-size:11.5px;color:var(--text-light);margin-bottom:12px;line-height:1.6;">从千佛镇龙神堂出发，经三千梯登顶，全程约
+            11 公里，累计爬升约 1500 米。体力一般者建议乘小黄车至半山腰（往返 60 元）。</p>
+          <div class="step-list" id="hiking-steps"></div>
+        </div>
+      </div>
+      <div class="season-panel" id="guide-camping">
+        <div class="step-card">
+          <img class="guide-cover" src="assets/hero/千佛山景点民宿.jpg" alt="山顶野营" loading="lazy"
+            onerror="this.style.display='none'">
+          <h3 style="font-size:13.5px;margin-bottom:8px;color:var(--text);">山顶野营指南</h3>
+          <p style="font-size:11.5px;color:var(--text-light);margin-bottom:12px;line-height:1.6;">山顶寺庙提供大通铺住宿（40
+            元/人，含早晚简餐），也可自带帐篷。山顶气温远低于山下，夜间需厚羽绒服。</p>
+          <div class="step-list" id="camp-steps"></div>
+        </div>
+      </div>
+
+      <div class="sidebar-card" style="margin-top:22px;">
+        <h4>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 2" />
+          </svg>
+          千佛山开放时间
+        </h4>
+        <div class="info-row"><span>全年开放</span><span style="color:var(--primary-dark);font-weight:600;">06:30 –
+            18:30</span></div>
+        <div class="info-row"><span>门票</span><span style="color:var(--primary-dark);font-weight:600;">免费</span></div>
+        <div class="info-row"><span>预约方式</span><span>龙神堂卡口 / 线上</span></div>
+        <div class="info-row"><span>漂流季</span><span>6月–8月 09:00–17:00</span></div>
+      </div>
+
+      <div class="alert-bar">
+        <span class="alert-icon">⚠</span>
+        <span>千佛山片区为未开发区域，须提前 1–7 天预约（每日限 300 人），园区内移动信号弱，请做好充分准备。</span>
+      </div>
+      <div class="sidebar-card">
+        <h4>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l9 4v6c0 5.5-3.8 10.4-9 11-5.2-.6-9-5.5-9-11V6l9-4z" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+          注意事项提醒
+        </h4>
+        <div id="checklist"></div>
+      </div>
+    </div>
+
+    <!-- ==================== 路线页（卡片列表 + 详情） ==================== -->
+    <div class="page" id="page-route">
+
+      <!-- 列表视图 -->
+      <div id="route-list-view">
+        <div class="page-head">
+          <div class="page-head-icon">
+            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 38 L38 10" />
+              <path d="M20 10 L38 10 L38 28" />
+            </svg>
+          </div>
+          <h2>推荐路线</h2>
+        </div>
+        <p class="page-sub">沿途多景点串联 · 特色人文美食 · 日常生活补给点</p>
+        <div id="route-cards"></div>
+      </div>
+
+      <!-- 详情视图 -->
+      <div id="route-detail-view" style="display:none;">
+        <button class="route-back" id="routeBack">‹ 返回路线列表</button>
+        <div class="route-detail-title" id="routeDetailTitle"></div>
+        <div class="route-detail-sub" id="routeDetailSub"></div>
+        <div class="alert-bar" style="background:var(--primary-light);color:var(--primary-dark);">
+          <span class="alert-icon">💡</span>
+          <span>沿途标注了特色美食、人文景点和生活用品补给点，点击右上角 ⭐ 可收藏。</span>
+        </div>
+        <div id="route-timeline"></div>
+      </div>
+    </div>
+
+    <!-- ==================== 我的 ==================== -->
+    <div class="page" id="page-mine">
+      <div class="profile-header">
+        <div class="profile-avatar">⛰️</div>
+        <div class="profile-info">
+          <h2>我的足迹</h2>
+          <p>收藏与行程都保存在本地</p>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-spots">0</div>
+          <div class="stat-label">收藏景点</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-routes">0</div>
+          <div class="stat-label">收藏路线</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-checks">0</div>
+          <div class="stat-label">已备事项</div>
+        </div>
+      </div>
+
+      <div class="mine-section">
+        <h3>⭐ 我收藏的景点 <span class="count-badge" id="badge-spots">0</span></h3>
+        <div class="mine-list" id="mine-spots"></div>
+      </div>
+
+      <div class="mine-section">
+        <h3>🌦️ 我收藏的季节路线 <span class="count-badge" id="badge-seasons">0</span></h3>
+        <div class="mine-list" id="mine-seasons"></div>
+      </div>
+
+      <div class="mine-section">
+        <h3>🧭 我收藏的路线节点 <span class="count-badge" id="badge-routes">0</span></h3>
+        <div class="mine-list" id="mine-routes"></div>
+      </div>
+
+      <div class="mine-section">
+        <h3>✅ 已备注意事项 <span class="count-badge" id="badge-checks">0</span></h3>
+        <div class="mine-list" id="mine-checks"></div>
+      </div>
+
+      <div class="mine-section">
+        <h3>⚙️ 数据管理</h3>
+        <p style="font-size:11.5px;color:var(--text-light);margin-bottom:8px;">清除后所有收藏和勾选记录将被删除，无法恢复。</p>
+        <button class="danger-btn" id="clear-all-btn">清空所有本地数据</button>
+      </div>
+    </div>
+
+    <!-- ==================== 实时导航面板 ==================== -->
+    <div class="nav-sheet" id="navSheet" aria-hidden="true">
+      <div class="nav-mask" id="navMask"></div>
+      <div class="nav-panel">
+        <div class="nav-head">
+          <div>
+            <div class="nav-title" id="navTitle">导航</div>
+            <div class="nav-status" id="navStatus"></div>
+          </div>
+          <button class="nav-close" id="navClose" aria-label="关闭">✕</button>
+        </div>
+        <div class="nav-map-wrap">
+          <div id="navMap"></div>
+          <button class="nav-locate" id="navLocate" aria-label="回到我的位置">◎</button>
+        </div>
+        <div class="nav-modes">
+          <button class="nav-mode active" data-mode="driving">🚗 驾车</button>
+          <button class="nav-mode" data-mode="walking">🚶 步行</button>
+        </div>
+        <div class="nav-summary" id="navSummary">正在规划路线…</div>
+        <div class="nav-steps" id="navSteps"></div>
+        <a class="nav-app-btn" id="navApp" target="_blank" rel="noopener">在高德地图 App 中开始导航</a>
+      </div>
+    </div>
+
+    <!-- ==================== 底部导航 ==================== -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" data-page="home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 01-1.5 1.5h-4v-6h-7v6h-4A1.5 1.5 0 013 20V10.5z" />
+        </svg>
+        <span>首页</span>
+      </button>
+      <button class="tab-btn" data-page="map">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M9 4L3 6v15l6-2 6 2 6-2V4l-6 2-6-2z" />
+          <path d="M9 4v15M15 6v15" />
+        </svg>
+        <span>乡旅地图</span>
+      </button>
+      <button class="tab-btn" data-page="guide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 20l6-14 5 9 3-4 4 9z" />
+          <circle cx="8" cy="5" r="1.5" />
+        </svg>
+        <span>攻略</span>
+      </button>
+      <button class="tab-btn" data-page="route">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="6" cy="6" r="2.5" />
+          <circle cx="18" cy="18" r="2.5" />
+          <path d="M8.5 6H15a3 3 0 010 6H9a3 3 0 000 6h6.5" />
+        </svg>
+        <span>路线</span>
+      </button>
+      <button class="tab-btn" data-page="mine">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
+        </svg>
+        <span>我的</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    /* ============================================================
+       持久化
+       ============================================================ */
+    const Store = {
+      _prefix: 'qianfo_',
+      get(key, def = null) {
+        try { const v = localStorage.getItem(this._prefix + key); return v ? JSON.parse(v) : def; }
+        catch { return def; }
+      },
+      set(key, val) { try { localStorage.setItem(this._prefix + key, JSON.stringify(val)); } catch { } },
+      remove(key) { try { localStorage.removeItem(this._prefix + key); } catch { } },
+      toggle(key, id) {
+        const arr = this.get(key, []);
+        const idx = arr.indexOf(id);
+        if (idx > -1) arr.splice(idx, 1); else arr.push(id);
+        this.set(key, arr);
+        return arr;
+      },
+      has(key, id) { return this.get(key, []).includes(id); }
+    };
+
+    /* ============================================================
+       Hero 轮播数据
+       ============================================================ */
+    const HERO_SLIDES = [
+      {
+        img: 'assets/hero/千佛山景观.jpg',
+        title: '千佛山 · 星空露营', sub: '以千佛山为中心 · 千佛镇全域绿色农旅',
+        pills: ['主峰 2942m', '国家森林公园', '大熊猫国家公园']
+      },
+      {
+        img: 'assets/hero/千佛山日出景观2.jpg',
+        title: '千佛山 · 日出云海', sub: '凌晨登顶 · 观云海日出奇观',
+        pills: ['日出 6:30', '云海概率高', '需提前登顶']
+      },
+      {
+        img: 'assets/hero/千佛山山顶冬季云海.jpg',
+        title: '千佛山 · 冬季云海', sub: '白雪蓝天 · 雾凇冰挂',
+        pills: ['12–2月', '需冰爪', '专业装备']
+      },
+      {
+        img: 'assets/hero/千佛山山顶雪景1.jpg',
+        title: '千佛山 · 冰雪童话', sub: '银装素裹 · 山顶雪景',
+        pills: ['最佳摄影', '云海日出', '海拔 2942m']
+      },
+      {
+        img: 'assets/hero/千佛山秋季山顶云海.jpg',
+        title: '千佛山 · 云海奇观', sub: '层云叠浪 · 如临仙境',
+        pills: ['10–11月', '摄影胜地']
+      },
+      {
+        img: 'assets/hero/山顶远眺雪山群峰.png',
+        title: '千佛山 · 远眺雪山', sub: '主峰远眺 · 群山连绵',
+        pills: ['色彩斑斓', '适合徒步']
+      },
+      {
+        img: 'assets/hero/千佛山秋季美景2.jpg',
+        title: '千佛山 · 云海远眺', sub: '云海之上 · 一览众山',
+        pills: ['4–5月', '70+ 品种', '花海徒步']
+      },
+      {
+        img: 'assets/hero/雾凇登山道.jpg',
+        title: '千佛山 · 雾凇登山道', sub: '雾凇凝结 · 步步如画',
+        pills: ['红色研学', '全天开放', '省级基地']
+      },
+      {
+        img: 'assets/hero/千佛山秋季美景1.jpg',
+        title: '千佛山 · 秋叶红了', sub: '层林尽染 · 红叶映蓝天',
+        pills: ['9–11月', '红叶', '摄影胜地']
+      },
+      {
+        img: 'assets/hero/千佛山秋季美景3.jpg',
+        title: '千佛山 · 秋色栈道', sub: '红栈道盘山而上 · 一步一景',
+        pills: ['9–11月', '观景步道', '适合徒步']
+      },
+    ];
+
+    /* ============================================================
+       数据层
+       ============================================================ */
+    const DATA = {
+      center: { lat: 31.6805, lng: 104.2830 },
+
+      sandPins: [
+        { id: 's1', x: '59%', y: '11%' },
+        { id: 's2', x: '62%', y: '18%' },
+        { id: 's9', x: '58%', y: '40%' },
+        { id: 's10', x: '51%', y: '54%' },
+        { id: 's4', x: '46%', y: '60%' },
+        { id: 's16', x: '43%', y: '66%' },
+        { id: 's6', x: '25%', y: '54%' },
+        { id: 's11', x: '22%', y: '68%' },
+        { id: 's7', x: '33%', y: '70%' },
+        { id: 's12', x: '36%', y: '75%' },
+        { id: 's15', x: '38%', y: '63%' },
+        { id: 's13', x: '48%', y: '75%' },
+        { id: 's14', x: '57%', y: '76%' },
+        { id: 's8', x: '71%', y: '63%' },
+        { id: 's3', x: '80%', y: '73%' },
+        { id: 's5', x: '72%', y: '79%' },
+        { id: 's17', x: '64%', y: '30%' },
+      ],
+
+      spots: [
+        {
+          id: 's1', name: '千佛山·主峰', cat: 'spot', icon: 'mountain',
+          desc: '国家森林公园 · 云海日出 · 四季四景',
+          time: '全天开放', tip: '海拔 2942m',
+          photo: 'assets/hero/千佛山雪景2.jpg'
+        },
+        {
+          id: 's2', name: '祖佛庙（千佛庙）遗址', cat: 'red', icon: 'flag',
+          desc: '千佛山战役指挥所遗址 · 海拔约 2922 米',
+          time: '全天', tip: '云海日出绝佳',
+          photo: 'assets/hero/祖佛庙遗址.jpg'
+        },
+        {
+          id: 's3', name: '千佛山漂流', cat: 'spot', icon: 'raft',
+          desc: '峡谷漂流 · 山泉水河道 · 夏季清凉',
+          time: '6月–8月 09:00–17:00', tip: '0816-4466999',
+          photo: 'assets/hero/千佛山漂流接待点.png'
+        },
+        {
+          id: 's4', name: '龙神堂停车场·登山起点', cat: 'supply', icon: 'parking',
+          desc: '千佛山徒步起点的换乘与补给点',
+          time: '全天', tip: '停车 10–20 元/天',
+          photo: 'assets/hero/龙神堂停车场-登山起点.jpg'
+        },
+        {
+          id: 's5', name: '老望沟村红色走廊', cat: 'red', icon: 'flag',
+          desc: '全国红色美丽村庄 · 2.5 公里红色走廊',
+          time: '全天', tip: '省级研学基地',
+          photo: 'assets/hero/老王沟红色走廊.jpg'
+        },
+        {
+          id: 's6', name: '金溪湖', cat: 'spot', icon: 'lake',
+          desc: '漂流河道起点 · 高山湖泊',
+          time: '全天', tip: '观景拍照',
+          photo: 'assets/hero/漂流景观.png'
+        },
+        {
+          id: 's7', name: '千佛山万家农家乐', cat: 'food', icon: 'bowl',
+          desc: '农家菜 · 本地风味',
+          time: '全年', tip: '可接待团队',
+          photo: 'assets/hero/漂流河道景观.png'
+        },
+        {
+          id: 's8', name: '千佛山水上乐园游客接待中心', cat: 'supply', icon: 'food',
+          desc: '土鸡 · 山腊肉 · 野菜 · 石磨豆腐',
+          time: '全年', tip: '餐饮补给',
+          photo: 'assets/hero/漂流接待中心.png'
+        },
+        {
+          id: 's9', name: '半山腰接待点', cat: 'supply', icon: 'house',
+          desc: '登山中段 · 接待休息',
+          time: '全天', tip: '中途休整',
+          photo: 'assets/hero/千佛山露营照片_1.jpg'
+        },
+        {
+          id: 's10', name: '售票处·汽车接应点', cat: 'supply', icon: 'house',
+          desc: '登山起点 · 检票与换乘指引',
+          time: '06:30–18:30', tip: '小黄车换乘',
+          photo: 'assets/hero/盘山公路接应.jpg'
+        },
+        {
+          id: 's11', name: '木言别院民宿', cat: 'stay', icon: 'building',
+          desc: '独门独院 · 门前小河 · 森林康养',
+          time: '全年', tip: '需提前预订',
+          photo: 'assets/hero/千佛民宿.png'
+        },
+        {
+          id: 's12', name: '三生·三和民宿', cat: 'stay', icon: 'building',
+          desc: '禅意山野小院 · 老木料青瓦土墙',
+          time: '全年', tip: '禅意主题',
+          photo: 'assets/hero/千佛民宿2.png'
+        },
+        {
+          id: 's13', name: '浅山溪语民宿', cat: 'stay', icon: 'building',
+          desc: '千佛山漂流起点 · 溪流小瀑布',
+          time: '全年', tip: '溪边玩水',
+          photo: 'assets/hero/千佛民宿3.png'
+        },
+        {
+          id: 's14', name: '花间岭·千佛', cat: 'stay', icon: 'building',
+          desc: '花间堂品牌 · 景观客房',
+          time: '全年', tip: '高端度假',
+          photo: 'assets/hero/千佛山景点民宿.jpg'
+        },
+        {
+          id: 's15', name: '千佛镇场镇·川心村', cat: 'village', icon: 'village',
+          desc: '镇政府驻地 · 生活用品与餐饮补给',
+          time: '工作日 09:00–17:00', tip: '集中补给点',
+          photo: 'assets/hero/漂流河道景观.png'
+        },
+        {
+          id: 's16', name: '登山口补给站', cat: 'supply', icon: 'shop',
+          desc: '徒步起点处的小卖与补给',
+          time: '07:00–21:00', tip: '最后的补给站',
+          photo: 'assets/hero/雾凇登山道.jpg'
+        },
+        {
+          id: 's17', name: '千佛山自然教育中心', cat: 'spot', icon: 'mountain',
+          desc: '大熊猫国家公园自然科普窗口',
+          time: '全天', tip: '科普研学',
+          photo: 'assets/hero/山间幽径奇树.png'
+        },
+        {
+          id: 's18', name: '万福山庄', cat: 'stay', icon: 'building',
+          desc: '餐饮 · 住宿 · 停车 · 棋牌',
+          time: '全年', tip: '需提前预订',
+          photo: 'assets/hero/万福山庄民宿大门.png'
+        },
+      ],
+
+      catNames: {
+        spot: '景点', stay: '民宿', food: '餐饮',
+        supply: '补给/接待', red: '红色文旅', village: '村/场镇'
+      },
+
+      hikingSteps: [
+        { t: '自驾/大巴抵达千佛镇', d: '成都出发约 2.5–3 小时，导航"千佛镇龙神堂"。镇上可补充食物和水。' },
+        { t: '龙神堂乘小黄车至三千梯', d: '往返 60 元/人，约 40 分钟车程，节省 2 小时徒步路程。票根务必保留。' },
+        { t: '三千梯 → 山顶（徒步）', d: '约 2 小时（体力好者），沿途穿越云海层，风景极佳。中途无补给点。' },
+        { t: '山顶活动与住宿', d: '可观日出、云海、星空。寺庙大通铺 40 元/人含晚餐和早餐。' },
+        { t: '下山返程', d: '原路返回至小黄车接驳点，乘小黄车回龙神堂。全程约 5–6 小时。' },
+      ],
+
+      campSteps: [
+        { t: '装备准备', d: '帐篷、-5°C 睡袋、防潮垫、头灯、登山杖、冰爪（冬季必带）、高热量食品。' },
+        { t: '选址建议', d: '山顶寺庙周边有平坦空地，避开悬崖边缘和落石区域。听从寺庙管理人员指引。' },
+        { t: '用火管理', d: '千佛山属森林防火高风险区，林区禁止烟火，严禁野炊、烧烤、取暖用火。' },
+        { t: '夜间安全', d: '山里可能有野生动物（野猪、熊等），食物密封保存，夜间勿大声喧哗。团队勿分散。' },
+        { t: '通讯与应急', d: '园区内移动信号弱，建议结伴出行并聘请当地向导。出发前告知家人行程。' },
+      ],
+
+      seasons: {
+        spring: {
+          title: '春 · 踏青野餐', color: '#7cb342', routes: [
+            { name: '千佛茶园采茶踏青', desc: '海拔 800m 云雾茶园，1.6 万亩杜鹃花海春季绽放。可体验采茶、野餐。', points: ['千佛茶园', '龙神堂', '清水溪'] },
+            { name: '千佛峡溪谷漫步', desc: '沿茶坪河溪谷轻徒步，适合家庭出游。携带野餐垫和简餐。', points: ['千佛峡', '东益村', '红色走廊'] },
+          ]
+        },
+        summer: {
+          title: '夏 · 避暑漂流露营', color: '#42a5f5', routes: [
+            { name: '千佛山漂流一日游', desc: '"泉水漂"全程落差 300m+，含沙滩娱乐、水上棋牌。千佛镇藏 22°C 清凉。', points: ['漂流接待中心', '沙滩露营区', '千佛镇夜市'] },
+            { name: '星空露营 + 音乐烧烤', desc: '夏季千佛镇湖心岛举办泼水活动、星空音乐会，自助烧烤一站式体验。', points: ['湖心岛', '东益村居委会', '漂流中心'] },
+          ]
+        },
+        autumn: {
+          title: '秋 · 登山野炊', color: '#ef6c00', routes: [
+            { name: '千佛山秋色登顶线', desc: '秋赏枫叶，云海日出震撼。从三千梯登顶约 2 小时。', points: ['龙神堂', '三千梯', '山顶寺庙'] },
+            { name: '红色走廊 + 农家野炊', desc: '老望沟红色长廊徒步后，到清水溪或尚林山莊体验农家野炊。', points: ['红色走廊', '清水溪', '千佛镇老街'] },
+          ]
+        },
+        winter: {
+          title: '冬 · 运动赏雪', color: '#5c6bc0', routes: [
+            { name: '千佛山冰雪徒步', desc: '白雪、蓝天、雾凇、云海构成绝美画卷。冰爪必备，建议早出发。', points: ['龙神堂', '三千梯', '山顶'] },
+            { name: '亲子雪地玩乐', desc: '适合家庭，在千佛镇周边低海拔区域玩雪、堆雪人，安全性更高。', points: ['千佛镇', '千佛峡', '茶园雪景'] },
+          ]
+        },
+      },
+
+      checklist: [
+        { id: 'c1', text: '提前 1–7 天预约（每日限 300 人）' },
+        { id: 'c2', text: '携带冰爪（冬季）、登山杖、头灯' },
+        { id: 'c3', text: '自备充足食物和饮水（山上无补给）' },
+        { id: 'c4', text: '穿着防滑登山鞋，携带保暖外套' },
+        { id: 'c5', text: '信号弱，告知家人行程并结伴出行' },
+        { id: 'c6', text: '严禁携带火源，林区全面禁火' },
+        { id: 'c7', text: '高血压、心脏病等患者请勿登山' },
+        { id: 'c8', text: '保留小黄车票根，勿走不熟悉小路' },
+      ],
+
+      /* 路线节点（按“天”存放，供下面的主题路线引用） */
+      routes: [
+        {
+          id: 'd1', day: 'Day 1 · 千佛山核心线', nodes: [
+            { time: '08:00', name: '千佛镇早餐', type: '美食', desc: '镇上老字号米粉店，品尝绵阳米粉和四川豆花。' },
+            { time: '09:00', name: '龙神堂 → 三千梯', type: '交通', desc: '乘小黄车（往返 60 元），约 40 分钟。' },
+            { time: '09:40', name: '三千梯徒步登顶', type: '景点', desc: '约 2 小时登顶，穿越云海层。' },
+            { time: '12:00', name: '山顶午餐', type: '补给', desc: '自备路餐。寺庙有矿泉水、泡面出售。' },
+            { time: '13:00', name: '观云海 · 拍大片', type: '景点', desc: '12 点前登顶，云海概率最高。' },
+            { time: '15:00', name: '下山返回', type: '交通', desc: '原路返回，约 2.5 小时到龙神堂。' },
+            { time: '18:00', name: '清水溪晚餐', type: '美食', desc: '冷水鱼、野生羊肚菌炖跑山鸡、农家腊肉。' },
+          ]
+        },
+        {
+          id: 'd2', day: 'Day 2 · 休闲农旅线', nodes: [
+            { time: '09:00', name: '千佛茶园', type: '景点', desc: '云雾茶园采茶体验，拍摄日光垄间光影。' },
+            { time: '11:00', name: '千佛峡漫步', type: '小众', desc: '溪谷轻徒步，人少景美，适合拍照。' },
+            { time: '12:30', name: '尚林山莊午餐', type: '美食', desc: '有机农家菜，土鸡火锅。' },
+            { time: '14:00', name: '红色走廊研学', type: '景点', desc: '2.5 公里红色文化长廊，了解本地历史。' },
+            { time: '16:00', name: '茶坪美廉副食店', type: '补给', desc: '采购当地特产：千佛腊肉、有机野菜、蜂蜜。' },
+            { time: '17:00', name: '返程', type: '交通', desc: '经桑枣镇返回绵阳/成都。' },
+          ]
+        },
+        {
+          id: 'd3', day: 'Day 1 · 漂流避暑线', nodes: [
+            { time: '09:00', name: '千佛山漂流', type: '景点', desc: '山泉水河道漂流，夏季清凉（6–8月 09:00–17:00）。' },
+            { time: '12:00', name: '漂流接待中心午餐', type: '美食', desc: '土鸡、山腊肉、野菜、石磨豆腐。' },
+            { time: '14:30', name: '金溪湖观景', type: '景点', desc: '高山湖泊，适合拍照散步。' },
+            { time: '17:30', name: '入住特色民宿', type: '住宿', desc: '木言别院 / 浅山溪语 / 花间岭·千佛，需提前预订。' },
+          ]
+        },
+        {
+          id: 'd4', day: '红色研学半日线', nodes: [
+            { time: '09:00', name: '老望沟红色走廊', type: '景点', desc: '2.5 公里红色文化长廊，全国红色美丽村庄。' },
+            { time: '11:00', name: '千佛山战役纪念点', type: '景点', desc: '重走长征路，了解千佛山战役历史。' },
+            { time: '12:30', name: '农家午餐', type: '美食', desc: '本地农家菜，可接待团队。' },
+            { time: '14:00', name: '千佛山自然教育中心', type: '景点', desc: '大熊猫国家公园科普窗口。' },
+          ]
+        },
+      ],
+
+      /* 推荐路线主题卡片（对应路线页的三张大图） */
+      routeThemes: [
+        {
+          id: 't1', title: '千佛山一日精华线', sub: '三千梯登顶 · 云海日出一日圆梦',
+          badge: '1日 · 约12公里 · 难度中上',
+          img: 'assets/hero/日出景观.png', dayIds: ['d1']
+        },
+        {
+          id: 't2', title: '千佛镇两日度假线', sub: '漂流+民宿+红色走廊 慢享清凉山居',
+          badge: '2日 · 自驾 · 休闲',
+          img: 'assets/hero/漂流景观.png', dayIds: ['d3', 'd2']
+        },
+        {
+          id: 't3', title: '红色研学主题线', sub: '重走长征路 · 千佛山战役红色记忆',
+          badge: '半日-1日 · 步行 · 红色研学',
+          img: 'assets/hero/老王沟红色走廊.jpg', dayIds: ['d4']
+        },
+      ],
+    };
+
+    /* ============================================================
+       图标 SVG
+       ============================================================ */
+    const ICONS = {
+      mountain: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-14 5 9 3-4 4 9z"/></svg>',
+      flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v18M4 4l12 2-3 4 3 4-12 2"/></svg>',
+      raft: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 21c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M12 3v8M8 6l4-3 4 3"/></svg>',
+      parking: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 010 6H9"/></svg>',
+      lake: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c3-3 5-3 8 0s5 3 8 0 4-2 4 0"/><path d="M2 19c3-3 5-3 8 0s5 3 8 0 4-2 4 0"/><circle cx="17" cy="7" r="3"/></svg>',
+      bowl: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18M5 11a7 7 0 0114 0M8 20h8"/></svg>',
+      house: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1V11z"/></svg>',
+      building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2"/></svg>',
+      village: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l6-4 6 4v12M9 21v-6h3v6M15 21V12l6-3v12"/></svg>',
+      shop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3zM5 7v14h14V7"/><path d="M9 12h6"/></svg>',
+    };
+
+    /* ============================================================
+       页面路由
+       ============================================================ */
+    function switchPage(pageId, scrollTop = true) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active');
+      document.querySelector(`.tab-btn[data-page="${pageId}"]`).classList.add('active');
+      if (scrollTop) window.scrollTo({ top: 0 });
+      if (pageId === 'mine') renderMine();
+      if (pageId === 'route') backToRouteList();   // 每次进入路线页都先显示卡片列表
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchPage(btn.dataset.page));
+    });
+
+    document.querySelectorAll('[data-jump]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.jump;
+        if (target === 'home-season') {
+          if (!document.getElementById('page-home').classList.contains('active')) {
+            switchPage('home');
+            setTimeout(() => scrollToSeason(), 200);
+          } else {
+            scrollToSeason();
+          }
+        } else {
+          switchPage(target);
+        }
+      });
+    });
+
+    function scrollToSeason() {
+      const target = document.getElementById('season-section');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ============================================================
+       Hero 轮播
+       ============================================================ */
+    let heroIndex = 0;
+    let heroTimer = null;
+
+    function renderHero() {
+      const track = document.getElementById('heroTrack');
+      const dots = document.getElementById('heroDots');
+
+      track.innerHTML = HERO_SLIDES.map((s, i) => `
+    <div class="hero-slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+      <img src="${s.img}" alt="${s.title}" onerror="this.style.opacity='0'">
+      <div class="hero-content">
+        <h1>${s.title}</h1>
+        <p>${s.sub}</p>
+        <div class="hero-pills">
+          ${s.pills.map(p => `<span>${p}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+      dots.innerHTML = HERO_SLIDES.map((_, i) =>
+        `<button class="hero-dot ${i === 0 ? 'active' : ''}" data-dot="${i}" aria-label="第${i + 1}张"></button>`
+      ).join('');
+
+      dots.addEventListener('click', e => {
+        const dot = e.target.closest('.hero-dot');
+        if (!dot) return;
+        goToSlide(parseInt(dot.dataset.dot));
+        resetHeroTimer();
+      });
+
+      resetHeroTimer();
+    }
+
+    function goToSlide(idx) {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots = document.querySelectorAll('.hero-dot');
+      if (!slides.length) return;
+      heroIndex = (idx + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('active', i === heroIndex));
+      dots.forEach((d, i) => d.classList.toggle('active', i === heroIndex));
+    }
+
+    function resetHeroTimer() {
+      clearInterval(heroTimer);
+      heroTimer = setInterval(() => {
+        goToSlide(heroIndex + 1);
+      }, 4500);
+    }
+
+    /* ============================================================
+       四季卡片点击 → 首页季节区块
+       ============================================================ */
+    document.querySelectorAll('.season-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const season = card.dataset.season;
+        if (!document.getElementById('page-home').classList.contains('active')) {
+          switchPage('home');
+          setTimeout(() => {
+            scrollToSeason();
+            const seasonTab = document.querySelector(`#seasonTabs .pill-tab[data-panel="${season}"]`);
+            if (seasonTab) seasonTab.click();
+          }, 250);
+        } else {
+          scrollToSeason();
+          const seasonTab = document.querySelector(`#seasonTabs .pill-tab[data-panel="${season}"]`);
+          if (seasonTab) seasonTab.click();
+        }
+      });
+    });
+
+    document.getElementById('seasonMoreBtn')?.addEventListener('click', () => {
+      scrollToSeason();
+    });
+
+    /* ============================================================
+       沙盘渲染
+       ============================================================ */
+    function renderSandPins() {
+      const el = document.getElementById('sandPins');
+      el.innerHTML = DATA.sandPins.map(p => {
+        const s = DATA.spots.find(x => x.id === p.id);
+        if (!s) return '';
+        const iconSvg = ICONS[s.icon] || ICONS.mountain;
+        return `<button class="sand-pin" data-pin-id="${s.id}"
+                    style="left:${p.x}; top:${p.y};"
+                    title="${s.name}">${iconSvg}</button>`;
+      }).join('');
+    }
+
+    function renderPoiList(cat) {
+      const list = cat === 'all' ? DATA.spots : DATA.spots.filter(s => s.cat === cat);
+      const el = document.getElementById('poiList');
+
+      if (list.length === 0) {
+        el.innerHTML = `<div class="empty-hint">该分类暂无点位</div>`;
+        return;
+      }
+
+      el.innerHTML = list.map(s => {
+        const iconSvg = ICONS[s.icon] || ICONS.mountain;
+        return `
+      <div class="poi-card" data-poi-id="${s.id}">
+        <div class="poi-icon cat-${s.cat}">${iconSvg}</div>
+        <div class="poi-body">
+          <div class="poi-title">${s.name}</div>
+          <div class="poi-desc">${s.desc}</div>
+        </div>
+        <button class="poi-nav" data-nav="${s.id}" aria-label="导航到${s.name}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8z"/></svg>
+        </button>
+      </div>
+    `;
+      }).join('');
+    }
+
+    document.getElementById('catScroll').addEventListener('click', e => {
+      const chip = e.target.closest('.cat-chip');
+      if (!chip) return;
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      renderPoiList(chip.dataset.cat);
+    });
+
+    /* ============================================================
+       沙盘 → 实景照片
+       ============================================================ */
+    function showSpotPhoto(spotId) {
+      const s = DATA.spots.find(x => x.id === spotId);
+      if (!s) return;
+      currentSpotId = spotId;
+
+      const sand = document.getElementById('sandtable');
+      const photo = document.getElementById('spotPhoto');
+      const img = document.getElementById('spotPhotoImg');
+
+      sand.classList.add('hide');
+
+      img.src = s.photo;
+      img.alt = s.name;
+
+      document.getElementById('photoCat').textContent = DATA.catNames[s.cat] || s.cat;
+      document.getElementById('photoTitle').textContent = s.name;
+      document.getElementById('photoDesc').textContent = s.desc;
+      document.getElementById('photoMeta').textContent = '⏰ ' + s.time + ' · ' + s.tip;
+
+      photo.classList.remove('show');
+      void photo.offsetWidth;
+      photo.classList.add('show');
+    }
+
+    function backToSand() {
+      document.getElementById('spotPhoto').classList.remove('show');
+      document.getElementById('sandtable').classList.remove('hide');
+    }
+
+    document.getElementById('photoBack').addEventListener('click', backToSand);
+
+    document.getElementById('sandPins').addEventListener('click', e => {
+      const pin = e.target.closest('.sand-pin');
+      if (!pin) return;
+      showSpotPhoto(pin.dataset.pinId);
+    });
+
+    document.getElementById('poiList').addEventListener('click', e => {
+      const navBtn = e.target.closest('[data-nav]');
+      if (navBtn) { openNav(navBtn.dataset.nav); return; }
+      const card = e.target.closest('.poi-card');
+      if (!card) return;
+      showSpotPhoto(card.dataset.poiId);
+    });
+
+    /* ============================================================
+       事项清单
+       ============================================================ */
+    function renderChecklist() {
+      const el = document.getElementById('checklist');
+      el.innerHTML = DATA.checklist.map(c => {
+        const checked = Store.has('checklist', c.id);
+        return `<div class="check-item ${checked ? 'checked' : ''}" data-check="${c.id}">
+      <div class="check-box">✓</div>
+      <span>${c.text}</span>
+    </div>`;
+      }).join('');
+    }
+
+    document.getElementById('checklist')?.addEventListener('click', e => {
+      const item = e.target.closest('.check-item');
+      if (!item) return;
+      const id = item.dataset.check;
+      Store.toggle('checklist', id);
+      item.classList.toggle('checked');
+    });
+
+    /* ============================================================
+       Tab 切换
+       ============================================================ */
+    document.querySelectorAll('.pill-tab[data-panel]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const parent = tab.parentElement;
+        parent.querySelectorAll('.pill-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const panel = tab.dataset.panel;
+        if (panel.startsWith('guide-')) {
+          document.querySelectorAll('#page-guide .season-panel').forEach(p => p.classList.remove('active'));
+          document.getElementById(panel).classList.add('active');
+        } else {
+          renderSeason(panel);
+        }
+      });
+    });
+
+    function renderGuideSteps() {
+      document.getElementById('hiking-steps').innerHTML = DATA.hikingSteps.map(s => `
+    <div class="step-item"><div class="step-num"></div><div class="step-content"><h4>${s.t}</h4><p>${s.d}</p></div></div>
+  `).join('');
+      document.getElementById('camp-steps').innerHTML = DATA.campSteps.map(s => `
+    <div class="step-item"><div class="step-num"></div><div class="step-content"><h4>${s.t}</h4><p>${s.d}</p></div></div>
+  `).join('');
+    }
+
+    /* ============================================================
+       季节路线 —— 渲染到首页 #season-content
+       ============================================================ */
+    function renderSeason(key) {
+      const s = DATA.seasons[key];
+      const el = document.getElementById('season-content');
+      el.innerHTML = `
+    <div class="season-cards" style="grid-template-columns:1fr;">
+      ${s.routes.map((r, i) => {
+        const favId = `season_${key}_${i}`;
+        const faved = Store.has('season_favs', favId);
+        return `
+        <div class="spot-card" style="border-top:3px solid ${s.color};border-radius:16px;overflow:hidden;background:var(--white);box-shadow:var(--shadow-card);">
+          <div style="padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;">
+              <span style="font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:8px;background:${s.color}22;color:${s.color};">${s.title}</span>
+              <button class="fav-mini" style="position:static;background:transparent;border:none;width:auto;height:auto;font-size:15px;"
+                      data-fav="${favId}" data-store="season_favs">${faved ? '⭐' : '☆'}</button>
+            </div>
+            <h3 style="font-size:14px;margin-bottom:5px;">${r.name}</h3>
+            <p style="font-size:11.5px;color:var(--text-light);line-height:1.5;">${r.desc}</p>
+            <div style="margin-top:9px;display:flex;gap:5px;flex-wrap:wrap;">
+              ${r.points.map(p => `<span style="font-size:10.5px;padding:2px 8px;border-radius:8px;background:var(--primary-light);color:var(--primary-dark);">${p}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `}).join('')}
+    </div>
+  `;
+    }
+
+    /* ============================================================
+       推荐路线：卡片列表 → 时间轴详情
+       ============================================================ */
+    function renderRoutes() {
+      document.getElementById('route-cards').innerHTML = DATA.routeThemes.map(t => `
+    <div class="route-card" data-theme="${t.id}">
+      <img src="${t.img}" alt="${t.title}" loading="lazy"
+           onerror="this.style.opacity='0'">
+      <span class="route-badge">${t.badge}</span>
+      <div class="route-info">
+        <h3>${t.title}</h3>
+        <p>${t.sub}</p>
+      </div>
+    </div>
+  `).join('');
+    }
+
+    function showRouteDetail(themeId) {
+      const t = DATA.routeThemes.find(x => x.id === themeId);
+      if (!t) return;
+
+      document.getElementById('routeDetailTitle').textContent = t.title;
+      document.getElementById('routeDetailSub').textContent = t.badge + ' · ' + t.sub;
+
+      const days = t.dayIds.map(id => DATA.routes.find(d => d.id === id)).filter(Boolean);
+      document.getElementById('route-timeline').innerHTML = days.map(day => `
+    <div class="day-title">${day.day}</div>
+    <div class="timeline">
+      ${day.nodes.map((n, i) => {
+        const favId = `route_${day.id}_${i}`;
+        const faved = Store.has('route_favs', favId);
+        return `
+        <div class="timeline-item">
+          <h4>${n.time} · ${n.name}</h4>
+          <p>${n.desc}</p>
+          <div class="tl-tags">
+            <span class="tl-tag" style="${n.type === '美食' ? 'background:var(--earth-light);color:var(--earth);' : ''}">${n.type}</span>
+          </div>
+          <button class="fav-mini" data-fav="${favId}" data-store="route_favs">${faved ? '⭐' : '☆'}</button>
+        </div>
+      `}).join('')}
+    </div>
+  `).join('');
+
+      document.getElementById('route-list-view').style.display = 'none';
+      document.getElementById('route-detail-view').style.display = 'block';
+      window.scrollTo({ top: 0 });
+    }
+
+    function backToRouteList() {
+      document.getElementById('route-detail-view').style.display = 'none';
+      document.getElementById('route-list-view').style.display = 'block';
+    }
+
+    document.getElementById('route-cards').addEventListener('click', e => {
+      const card = e.target.closest('.route-card');
+      if (card) showRouteDetail(card.dataset.theme);
+    });
+
+    document.getElementById('routeBack').addEventListener('click', () => {
+      backToRouteList();
+      window.scrollTo({ top: 0 });
+    });
+
+    /* ============================================================
+       ⭐ 收藏按钮（季节路线 / 路线节点）
+       ============================================================ */
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-fav]');
+      if (!btn) return;
+      const arr = Store.toggle(btn.dataset.store, btn.dataset.fav);
+      btn.textContent = arr.includes(btn.dataset.fav) ? '⭐' : '☆';
+    });
+
+    /* ============================================================
+       我的
+       ============================================================ */
+    function renderMine() {
+      const homeFavs = Store.get('home_favs', []);
+      const mapFavs = Store.get('map_favs', []);
+      const seasonFavs = Store.get('season_favs', []);
+      const routeFavs = Store.get('route_favs', []);
+      const checks = Store.get('checklist', []);
+
+      const spotIds = Array.from(new Set([...homeFavs, ...mapFavs]));
+      const spotItems = spotIds.map(id => DATA.spots.find(s => s.id === id)).filter(Boolean);
+
+      document.getElementById('stat-spots').textContent = spotItems.length;
+      document.getElementById('stat-routes').textContent = seasonFavs.length + routeFavs.length;
+      document.getElementById('stat-checks').textContent = checks.length;
+
+      const spotsEl = document.getElementById('mine-spots');
+      document.getElementById('badge-spots').textContent = spotItems.length;
+      spotsEl.innerHTML = spotItems.length === 0
+        ? `<div class="empty-hint">还没有收藏景点</div>`
+        : spotItems.map(s => `
+      <div class="mine-item">
+        <div style="flex:1;overflow:hidden;">
+          <div class="mine-item-title">${s.name}</div>
+          <div class="mine-item-desc">${s.desc}</div>
+        </div>
+        <button class="remove-btn" data-remove="${s.id}">删除</button>
+      </div>
+    `).join('');
+
+      const seasonEl = document.getElementById('mine-seasons');
+      document.getElementById('badge-seasons').textContent = seasonFavs.length;
+      seasonEl.innerHTML = seasonFavs.length === 0
+        ? `<div class="empty-hint">还没有收藏季节路线</div>`
+        : seasonFavs.map(fid => {
+          const parts = fid.split('_');
+          const season = DATA.seasons[parts[1]];
+          const route = season?.routes[parseInt(parts[2])];
+          if (!route) return '';
+          return `
+        <div class="mine-item">
+          <div style="flex:1;overflow:hidden;">
+            <div class="mine-item-title">${route.name}</div>
+            <div class="mine-item-desc">${season.title}</div>
+          </div>
+          <button class="remove-btn" data-remove-season="${fid}">删除</button>
+        </div>
+      `;
+        }).join('');
+
+      const routeEl = document.getElementById('mine-routes');
+      document.getElementById('badge-routes').textContent = routeFavs.length;
+      routeEl.innerHTML = routeFavs.length === 0
+        ? `<div class="empty-hint">还没有收藏路线节点</div>`
+        : routeFavs.map(fid => {
+          const parts = fid.split('_');
+          const day = DATA.routes.find(d => d.id === parts[1]);
+          const node = day?.nodes[parseInt(parts[2])];
+          if (!node) return '';
+          return `
+        <div class="mine-item">
+          <div style="flex:1;overflow:hidden;">
+            <div class="mine-item-title">${node.time} · ${node.name}</div>
+            <div class="mine-item-desc">${day.day}</div>
+          </div>
+          <button class="remove-btn" data-remove-route="${fid}">删除</button>
+        </div>
+      `;
+        }).join('');
+
+      const checkEl = document.getElementById('mine-checks');
+      document.getElementById('badge-checks').textContent = checks.length;
+      checkEl.innerHTML = checks.length === 0
+        ? `<div class="empty-hint">还没有勾选注意事项</div>`
+        : checks.map(cid => {
+          const item = DATA.checklist.find(c => c.id === cid);
+          if (!item) return '';
+          return `
+        <div class="mine-item">
+          <div style="flex:1;overflow:hidden;">
+            <div class="mine-item-title">✅ ${item.text}</div>
+          </div>
+          <button class="remove-btn" data-remove-check="${cid}">取消</button>
+        </div>
+      `;
+        }).join('');
+    }
+
+    document.getElementById('page-mine').addEventListener('click', e => {
+      const t = e.target;
+
+      if (t.dataset.remove) {
+        const id = t.dataset.remove;
+        Store.set('home_favs', Store.get('home_favs', []).filter(x => x !== id));
+        Store.set('map_favs', Store.get('map_favs', []).filter(x => x !== id));
+        document.querySelectorAll(`[data-fav="${id}"]`).forEach(b => { b.textContent = '☆'; });
+        renderMine();
+        return;
+      }
+      if (t.dataset.removeSeason) {
+        const fid = t.dataset.removeSeason;
+        Store.set('season_favs', Store.get('season_favs', []).filter(x => x !== fid));
+        document.querySelectorAll(`[data-fav="${fid}"]`).forEach(b => { b.textContent = '☆'; });
+        renderMine();
+        return;
+      }
+      if (t.dataset.removeRoute) {
+        const fid = t.dataset.removeRoute;
+        Store.set('route_favs', Store.get('route_favs', []).filter(x => x !== fid));
+        document.querySelectorAll(`[data-fav="${fid}"]`).forEach(b => { b.textContent = '☆'; });
+        renderMine();
+        return;
+      }
+      if (t.dataset.removeCheck) {
+        const cid = t.dataset.removeCheck;
+        Store.set('checklist', Store.get('checklist', []).filter(x => x !== cid));
+        document.querySelectorAll(`.check-item[data-check="${cid}"]`).forEach(el => el.classList.remove('checked'));
+        renderMine();
+        return;
+      }
+    });
+
+    document.getElementById('clear-all-btn')?.addEventListener('click', () => {
+      if (!confirm('确定要清空所有收藏和勾选记录吗？此操作不可恢复。')) return;
+      ['home_favs', 'map_favs', 'season_favs', 'route_favs', 'checklist'].forEach(k => Store.remove(k));
+      document.querySelectorAll('[data-fav]').forEach(b => { if (!b.dataset.mapFav) b.textContent = '☆'; });
+      document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
+      renderMine();
+    });
+
+    /* ============================================================
+       搜索
+       ============================================================ */
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const q = e.target.value.trim();
+      if (!q) return;
+      const hit = DATA.spots.find(s => s.name.includes(q) || s.desc.includes(q));
+      if (hit) {
+        switchPage('map');
+        setTimeout(() => showSpotPhoto(hit.id), 220);
+      } else {
+        alert('未找到相关地点，试试"主峰""民宿""漂流"等关键词');
+      }
+      e.target.blur();
+    });
+
+    /* ============================================================
+       高德实时导航
+       ============================================================
+       ⚠ 使用前请确认：
+       1) key 必须是「Web端(JS API)」类型；
+       2) 2021 年 12 月后申请的 key 还需要「安全密钥」，填入 securityJsCode；
+       3) 在高德控制台给 key 设置域名白名单，避免被他人盗用。
+       4) 每个点位的真实坐标请填到 DATA.spots 的 lnglat 字段（[经度, 纬度]），
+          没填的点位会在运行时用点位名称在 DATA.center 附近搜索。
+       ============================================================ */
+    const AMAP_CONFIG = {
+      key: 'b3ef210b81486f2a82d84de8b6af5f36',
+      securityJsCode: '',        // ← 在这里填你的安全密钥
+      city: '绵阳',
+      searchRadius: 40000        // 名称搜索半径（米）
+    };
+    if (AMAP_CONFIG.securityJsCode) {
+      window._AMapSecurityConfig = { securityJsCode: AMAP_CONFIG.securityJsCode };
+    }
+
+    let currentSpotId = null;
+    const NAV = {
+      spot: null, dest: null, mode: 'driving',
+      map: null, router: null, destMarker: null, meMarker: null,
+      me: null, watchId: null, lastPlanPos: null, lastPlanAt: 0, planning: false
+    };
+
+    let amapPromise = null;
+    function loadAMap() {
+      if (window.AMap) return Promise.resolve(window.AMap);
+      if (amapPromise) return amapPromise;
+      amapPromise = new Promise((resolve, reject) => {
+        const sc = document.createElement('script');
+        sc.src = `https://webapi.amap.com/maps?v=2.0&key=${AMAP_CONFIG.key}&plugin=AMap.Driving,AMap.Walking,AMap.PlaceSearch`;
+        sc.onload = () => window.AMap ? resolve(window.AMap) : reject(new Error('高德地图未能初始化'));
+        sc.onerror = () => reject(new Error('高德地图脚本加载失败，请检查网络'));
+        document.head.appendChild(sc);
+      });
+      amapPromise.catch(() => { amapPromise = null; });
+      return amapPromise;
+    }
+
+    const $nav = id => document.getElementById(id);
+    function setNavStatus(t) { $nav('navStatus').textContent = t; }
+
+    function fmtDist(m) { return m >= 1000 ? (m / 1000).toFixed(1) + ' 公里' : Math.round(m) + ' 米'; }
+    function fmtTime(sec) {
+      const m = Math.round(sec / 60);
+      if (m < 60) return m + ' 分钟';
+      return Math.floor(m / 60) + ' 小时 ' + (m % 60) + ' 分钟';
+    }
+
+    function updateAppLink() {
+      const a = $nav('navApp');
+      const sp = NAV.spot;
+      if (!sp) return;
+      const m = NAV.mode === 'walking' ? 'walk' : 'car';
+      if (NAV.dest) {
+        a.href = `https://uri.amap.com/navigation?to=${NAV.dest[0]},${NAV.dest[1]},${encodeURIComponent(sp.name)}&mode=${m}&policy=1&src=yunshangqianfo&coordinate=gaode&callnative=1`;
+      } else {
+        a.href = `https://uri.amap.com/search?keyword=${encodeURIComponent('千佛山 ' + sp.name)}&src=yunshangqianfo&callnative=1`;
+      }
+    }
+
+    /* 目的地坐标：优先用 spot.lnglat，其次本地缓存，最后按名称搜索 */
+    function resolveDest(spot) {
+      return new Promise(resolve => {
+        if (spot.lnglat) return resolve(spot.lnglat);
+        const cached = Store.get('geo_' + spot.id);
+        if (cached) return resolve(cached);
+
+        const ps = new AMap.PlaceSearch({ city: AMAP_CONFIG.city, pageSize: 1 });
+        const done = (st, r) => {
+          const poi = st === 'complete' && r.poiList && r.poiList.pois && r.poiList.pois[0];
+          if (poi && poi.location) {
+            const ll = [poi.location.lng, poi.location.lat];
+            Store.set('geo_' + spot.id, ll);
+            resolve(ll);
+            return true;
+          }
+          return false;
+        };
+        const kw = spot.name.replace(/[（(].*?[）)]/g, '');
+        ps.searchNearBy(kw, [DATA.center.lng, DATA.center.lat], AMAP_CONFIG.searchRadius, (st, r) => {
+          if (done(st, r)) return;
+          ps.search('千佛山 ' + kw, (st2, r2) => { if (!done(st2, r2)) resolve(null); });
+        });
+      });
+    }
+
+    /* 浏览器定位(WGS84) → 高德坐标(GCJ02) */
+    function toGcj(lng, lat) {
+      return new Promise(resolve => {
+        AMap.convertFrom([lng, lat], 'gps', (st, r) => {
+          if (st === 'complete' && r.locations && r.locations[0]) {
+            resolve([r.locations[0].lng, r.locations[0].lat]);
+          } else resolve([lng, lat]);
+        });
+      });
+    }
+
+    function placeMe(ll) {
+      NAV.me = ll;
+      if (!NAV.map) return;
+      if (!NAV.meMarker) {
+        NAV.meMarker = new AMap.Marker({
+          position: ll, offset: new AMap.Pixel(-11, -11), zIndex: 200,
+          content: '<div class="nav-marker-me"></div>'
+        });
+        NAV.map.add(NAV.meMarker);
+      } else NAV.meMarker.setPosition(ll);
+    }
+
+    function startWatch() {
+      if (NAV.watchId != null || !navigator.geolocation) return;
+      NAV.watchId = navigator.geolocation.watchPosition(async pos => {
+        const ll = await toGcj(pos.coords.longitude, pos.coords.latitude);
+        const first = !NAV.me;
+        placeMe(ll);
+        if (first) { planRoute(); return; }
+        // 实时：偏离上次规划点 150m 以上且距上次规划超过 15 秒，则重新规划
+        const moved = AMap.GeometryUtil.distance(ll, NAV.lastPlanPos || ll);
+        if (moved > 150 && Date.now() - NAV.lastPlanAt > 15000) planRoute();
+      }, err => {
+        setNavStatus(err.code === 1 ? '未获得定位权限，可在高德 App 中直接导航' : '定位失败，可在高德 App 中直接导航');
+        $nav('navSummary').textContent = '无法获取当前位置';
+      }, { enableHighAccuracy: true, maximumAge: 3000, timeout: 15000 });
+    }
+
+    function stopWatch() {
+      if (NAV.watchId != null && navigator.geolocation) navigator.geolocation.clearWatch(NAV.watchId);
+      NAV.watchId = null;
+    }
+
+    function planRoute() {
+      if (!NAV.map || !NAV.me || !NAV.dest || NAV.planning) return;
+      NAV.planning = true;
+      if (NAV.router) { try { NAV.router.clear(); } catch (e) { } }
+      const Ctor = NAV.mode === 'walking' ? AMap.Walking : AMap.Driving;
+      NAV.router = new Ctor({ map: NAV.map, hideMarkers: true, autoFitView: !NAV.lastPlanPos });
+      NAV.lastPlanPos = NAV.me;
+      NAV.lastPlanAt = Date.now();
+      NAV.router.search(NAV.me, NAV.dest, (st, res) => {
+        NAV.planning = false;
+        const sum = $nav('navSummary'), steps = $nav('navSteps');
+        if (st !== 'complete' || !res.routes || !res.routes[0]) {
+          sum.textContent = '暂时无法规划该方式的路线，可尝试切换方式或在高德 App 中导航';
+          steps.innerHTML = '';
+          setNavStatus('规划失败');
+          return;
+        }
+        const r = res.routes[0];
+        sum.innerHTML = `全程 <b>${fmtDist(r.distance)}</b> · 约 <b>${fmtTime(r.time)}</b>`;
+        steps.innerHTML = (r.steps || []).map((x, i) =>
+          `<div class="nav-step"><i>${i + 1}</i><span>${x.instruction || ''}</span></div>`).join('');
+        setNavStatus('已根据你的实时位置规划 · 移动时会自动更新');
+      });
+    }
+
+    async function openNav(spotId) {
+      const spot = DATA.spots.find(x => x.id === spotId);
+      if (!spot) return;
+      NAV.spot = spot; NAV.dest = null; NAV.me = null; NAV.lastPlanPos = null;
+      $nav('navTitle').textContent = '前往 · ' + spot.name;
+      $nav('navSummary').textContent = '正在规划路线…';
+      $nav('navSteps').innerHTML = '';
+      setNavStatus('正在加载地图…');
+      updateAppLink();
+      $nav('navSheet').classList.add('open');
+      $nav('navSheet').setAttribute('aria-hidden', 'false');
+
+      try {
+        await loadAMap();
+      } catch (err) {
+        setNavStatus(err.message);
+        $nav('navSummary').textContent = '地图加载失败，仍可点击下方按钮在高德 App 中导航';
+        return;
+      }
+
+      if (!NAV.map) {
+        NAV.map = new AMap.Map('navMap', { zoom: 13, center: [DATA.center.lng, DATA.center.lat], resizeEnable: true });
+      }
+      if (NAV.destMarker) { NAV.map.remove(NAV.destMarker); NAV.destMarker = null; }
+      if (NAV.meMarker) { NAV.map.remove(NAV.meMarker); NAV.meMarker = null; }
+
+      setNavStatus('正在查找目的地…');
+      NAV.dest = await resolveDest(spot);
+      updateAppLink();
+      if (!NAV.dest) {
+        setNavStatus('未找到该点位的坐标');
+        $nav('navSummary').textContent = '请在 DATA.spots 中为该点位补充 lnglat，或点击下方按钮在高德 App 中搜索';
+        return;
+      }
+      NAV.destMarker = new AMap.Marker({ position: NAV.dest, title: spot.name });
+      NAV.map.add(NAV.destMarker);
+      NAV.map.setCenter(NAV.dest);
+
+      setNavStatus('正在获取你的位置…');
+      startWatch();
+    }
+
+    function closeNav() {
+      stopWatch();
+      if (NAV.router) { try { NAV.router.clear(); } catch (e) { } }
+      $nav('navSheet').classList.remove('open');
+      $nav('navSheet').setAttribute('aria-hidden', 'true');
+    }
+
+    $nav('navClose').addEventListener('click', closeNav);
+    $nav('navMask').addEventListener('click', closeNav);
+    $nav('photoNav').addEventListener('click', () => { if (currentSpotId) openNav(currentSpotId); });
+    $nav('navLocate').addEventListener('click', () => {
+      if (NAV.me && NAV.map) NAV.map.setCenter(NAV.me);
+    });
+    document.querySelectorAll('.nav-mode').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.nav-mode').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        NAV.mode = b.dataset.mode;
+        NAV.lastPlanPos = null;
+        updateAppLink();
+        $nav('navSummary').textContent = '正在规划路线…';
+        planRoute();
+      });
+    });
+
+    /* ============================================================
+       初始化
+       ============================================================ */
+    renderHero();
+    renderSandPins();
+    renderPoiList('all');
+    renderChecklist();
+    renderGuideSteps();
+    renderSeason('spring');
+    renderRoutes();
+
+    /* ============================================================
+       开屏动画
+       ============================================================ */
+    (function () {
+      const splash = document.getElementById('splash-screen');
+      const video = document.getElementById('splash-video');
+      const skip = document.getElementById('splash-skip');
+      if (!splash || !video) return;
+
+      const MIN_SHOW = 800;
+      const MAX_SHOW = 15000;
+      let closed = false;
+      let startTime = Date.now();
+      let maxTimer = null;
+
+      function closeSplash() {
+        if (closed) return;
+        closed = true;
+        clearTimeout(maxTimer);
+        splash.classList.add('hide');
+        setTimeout(() => splash.remove(), 900);
+      }
+
+      video.addEventListener('ended', () => {
+        const wait = Math.max(0, MIN_SHOW - (Date.now() - startTime));
+        setTimeout(closeSplash, wait);
+      });
+      skip.addEventListener('click', closeSplash);
+      video.addEventListener('error', () => {
+        console.warn('[开屏动画] 视频加载失败，已跳过。');
+        closeSplash();
+      });
+
+      maxTimer = setTimeout(closeSplash, MAX_SHOW);
+
+      const tryPlay = video.play();
+      if (tryPlay && typeof tryPlay.catch === 'function') {
+        tryPlay.catch(() => closeSplash());
+      }
+    })();
+  </script>
+</body>
+
+</html>
